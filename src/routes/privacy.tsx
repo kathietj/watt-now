@@ -4,13 +4,13 @@ import { SiteHeader, SiteFooter } from "@/components/site-chrome";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy — WattSight" },
+      { title: "Privacy — WattNow" },
       {
         name: "description",
         content:
-          "How WattSight handles your camera feed: live detection runs locally, and only a captured still image is sent for deeper AI analysis.",
+          "How WattNow handles your camera feed: live detection runs locally, and only a captured still image is sent for deeper AI analysis.",
       },
-      { property: "og:title", content: "Privacy — WattSight" },
+      { property: "og:title", content: "Privacy — WattNow" },
       { property: "og:description", content: "Your camera feed stays private." },
     ],
   }),
@@ -24,7 +24,7 @@ function PrivacyPage() {
       <main className="mx-auto max-w-3xl px-4 py-12">
         <h1 className="text-3xl font-bold sm:text-4xl">Privacy</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Your camera feed stays private. WattSight only analyzes frames necessary for device
+          Your camera feed stays private. WattNow only analyzes frames necessary for device
           detection. Captured images are not publicly shared.
         </p>
 
@@ -41,7 +41,7 @@ function PrivacyPage() {
           <p className="text-sm leading-relaxed text-muted-foreground">
             When you press "Capture &amp; Analyze", one still image is sent to the AI vision service
             so it can identify appliances the live detector missed. It is used only to analyze that
-            room, is not stored permanently by WattSight, and is not published anywhere.
+            room, is not stored permanently by WattNow, and is not published anywhere.
           </p>
         </section>
 

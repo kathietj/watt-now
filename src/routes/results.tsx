@@ -22,7 +22,7 @@ import { coachRoom } from "@/lib/analysis.functions";
 import {
   TARIFF_CONFIG,
   computeRoomTotals,
-  computeWattSightScore,
+  computeWattNowScore,
   formatKwhRange,
   formatPowerRange,
   formatRp,
@@ -40,13 +40,13 @@ import {
 export const Route = createFileRoute("/results")({
   head: () => ({
     meta: [
-      { title: "Your Room Energy Scan — WattSight" },
+      { title: "Your Room Energy Scan — WattNow" },
       {
         name: "description",
         content:
-          "Estimated power, monthly kWh, Rupiah cost, WattSight score and personalised savings for the room you scanned.",
+          "Estimated power, monthly kWh, Rupiah cost, WattNow score and personalised savings for the room you scanned.",
       },
-      { property: "og:title", content: "Your Room Energy Scan — WattSight" },
+      { property: "og:title", content: "Your Room Energy Scan — WattNow" },
       {
         property: "og:description",
         content: "Estimated electricity cost and savings opportunities for your scanned room.",
@@ -79,7 +79,7 @@ function ResultsPage() {
   );
   const score = useMemo(
     () =>
-      computeWattSightScore(
+      computeWattNowScore(
         current?.appliances ?? [],
         totals,
         current?.roomType ?? "other",
@@ -152,7 +152,7 @@ function ResultsPage() {
       <header className="border-b border-border/60 px-4 py-8">
         <div className="mx-auto max-w-5xl">
           <p className="font-mono text-xs uppercase tracking-widest text-primary">
-            {current.demo ? "Demo mode · " : ""}WattSight report
+            {current.demo ? "Demo mode · " : ""}WattNow report
           </p>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Your Room Energy Scan</h1>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -177,8 +177,8 @@ function ResultsPage() {
             </button>
             <button
               onClick={async () => {
-                const text = `WattSight Room Energy Report — estimated ${formatRpRange(totals.monthlyCostMin, totals.monthlyCostMax)}/month, WattSight score ${score.score}/100.`;
-                if (navigator.share) await navigator.share({ title: "WattSight", text }).catch(() => undefined);
+                const text = `WattNow Room Energy Report — estimated ${formatRpRange(totals.monthlyCostMin, totals.monthlyCostMax)}/month, WattNow score ${score.score}/100.`;
+                if (navigator.share) await navigator.share({ title: "WattNow", text }).catch(() => undefined);
                 else {
                   await navigator.clipboard.writeText(text);
                   toast.success("Summary copied to clipboard.");
@@ -323,7 +323,7 @@ function ResultsPage() {
               </span>
               <div>
                 <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                  WattSight score
+                  WattNow score
                 </p>
                 <p className="text-2xl font-bold">{score.band}</p>
                 <p className="text-sm text-muted-foreground">{score.score} / 100</p>

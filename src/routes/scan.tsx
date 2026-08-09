@@ -18,19 +18,20 @@ import type { BoxDetection } from "@/lib/energy";
 import { uid } from "@/lib/energy";
 import { DEMO_SCENES, makeAppliance } from "@/lib/appliance-catalog";
 import { mergeDetections } from "@/lib/merge-detections";
+import { fileToDataUrl, prepareImageForAnalysis } from "@/lib/image-client";
 import { analyzeRoom } from "@/lib/analysis.functions";
 import { newScan, updateCurrent } from "@/lib/scan-store";
 
 export const Route = createFileRoute("/scan")({
   head: () => ({
     meta: [
-      { title: "Scan a Room — WattSight" },
+      { title: "Scan a Room — WattNow" },
       {
         name: "description",
         content:
           "Use your device camera to detect electronics in a room, then capture one frame for an AI energy estimate.",
       },
-      { property: "og:title", content: "Scan a Room — WattSight" },
+      { property: "og:title", content: "Scan a Room — WattNow" },
       {
         property: "og:description",
         content: "Live electronics detection in your browser. No app download required.",
@@ -153,8 +154,8 @@ function ScanPage() {
     const v = videoRef.current;
     if (!v || !v.videoWidth) return null;
     const canvas = document.createElement("canvas");
-    const maxW = 1024;
-    const scale = Math.min(1, maxW / v.videoWidth);
+    const maxDimension = 1280;
+    const scale = Math.min(1, maxDimension / Math.max(v.videoWidth, v.videoHeight));
     canvas.width = Math.round(v.videoWidth * scale);
     canvas.height = Math.round(v.videoHeight * scale);
     canvas.getContext("2d")?.drawImage(v, 0, 0, canvas.width, canvas.height);
@@ -184,11 +185,25 @@ function ScanPage() {
           id: scan.id,
         });
       } catch (err) {
-        console.error(err);
-        const message = err instanceof Error ? err.message : "";
-        if (message.includes("RATE_LIMIT")) toast.error("AI is busy right now — please retry in a moment.");
-        else if (message.includes("NO_CREDITS")) toast.error("AI credits are exhausted for this workspace.");
-        else toast.error("Deeper AI analysis was unavailable — showing live detections only.");
+        console.error("[WattNow deep analysis]", err);
+        const message = err instanceof Error ? err.message : String(err ?? "");
+
+        if (message.includes("RATE_LIMIT")) {
+          toast.error("AI is busy right now. Your live detections were kept — try Capture & Analyze again in a moment.");
+        } else if (message.includes("NO_CREDITS")) {
+          toast.error("AI credits are unavailable. Your live detections were kept.");
+        } else if (message.includes("AI_NOT_CONFIGURED")) {
+          toast.error("Deep AI is not configured on this deployment. Add GEMINI_API_KEY on the server or enable Lovable AI.");
+        } else if (message.includes("AI_AUTH")) {
+          toast.error("The AI API key was rejected. Check the server environment key.");
+        } else if (message.includes("IMAGE_TOO_LARGE")) {
+          toast.error("That image is too large for AI analysis. Please retake it or upload a smaller photo.");
+        } else if (message.includes("AI_TIMEOUT") || message.includes("AI_NETWORK") || message.includes("AI_TEMPORARY")) {
+          toast.error("The AI service is temporarily unreachable. Your live detections were kept.");
+        } else {
+          toast.error(`Deep AI analysis failed${message ? `: ${message.slice(0, 160)}` : ""}. Live detections were kept.`);
+        }
+
         updateCurrent({ appliances: mergeDetections(currentBoxes, []) });
       } finally {
         clearInterval(timer);
@@ -212,23 +227,28 @@ function ScanPage() {
 
   const onUpload = useCallback(
     async (file: File) => {
-      const reader = new FileReader();
-      const dataUrl: string = await new Promise((resolve, reject) => {
-        reader.onload = () => resolve(String(reader.result));
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-
-      let uploadBoxes: BoxDetection[] = [];
       try {
-        const img = new Image();
-        img.src = dataUrl;
-        await img.decode();
-        uploadBoxes = await detectObjects(img, img.naturalWidth, img.naturalHeight);
-      } catch {
-        /* detector optional on upload */
+        if (!file.type.startsWith("image/")) {
+          toast.error("Please choose an image file.");
+          return;
+        }
+        const originalDataUrl = await fileToDataUrl(file);
+        const dataUrl = await prepareImageForAnalysis(originalDataUrl, 1280, 0.82);
+
+        let uploadBoxes: BoxDetection[] = [];
+        try {
+          const img = new Image();
+          img.src = dataUrl;
+          await img.decode();
+          uploadBoxes = await detectObjects(img, img.naturalWidth, img.naturalHeight);
+        } catch (error) {
+          console.warn("[WattNow upload detector] live detector unavailable; continuing with deep AI", error);
+        }
+        await runAnalysis(dataUrl, uploadBoxes);
+      } catch (error) {
+        console.error("[WattNow upload]", error);
+        toast.error(error instanceof Error ? error.message : "Could not prepare that image.");
       }
-      await runAnalysis(dataUrl, uploadBoxes);
     },
     [runAnalysis],
   );
@@ -268,7 +288,7 @@ function ScanPage() {
           <ArrowLeft className="size-4" /> Back
         </Link>
         <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest">
-          <span className="font-display text-sm font-bold normal-case tracking-normal">WattSight</span>
+          <span className="font-display text-sm font-bold normal-case tracking-normal">WattNow</span>
           <span className="inline-flex items-center gap-1.5 text-primary">
             <span className={`size-2 rounded-full bg-primary ${streaming ? "animate-live" : "opacity-30"}`} />
             {streaming ? "Live" : "Paused"}

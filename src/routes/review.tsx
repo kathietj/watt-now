@@ -26,13 +26,13 @@ import {
 export const Route = createFileRoute("/review")({
   head: () => ({
     meta: [
-      { title: "Review Detected Devices — WattSight" },
+      { title: "Review Detected Devices — WattNow" },
       {
         name: "description",
         content:
-          "Correct the AI's detections, set operating status and daily usage hours before WattSight estimates your electricity cost.",
+          "Correct the AI's detections, set operating status and daily usage hours before WattNow estimates your electricity cost.",
       },
-      { property: "og:title", content: "Review Detected Devices — WattSight" },
+      { property: "og:title", content: "Review Detected Devices — WattNow" },
       {
         property: "og:description",
         content: "AI detection is not always right. Fix the room before the numbers are calculated.",
@@ -97,7 +97,7 @@ function ReviewPage() {
         <section className="panel p-5">
           <h2 className="text-lg font-semibold">Room context</h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            This makes the WattSight score fair — a classroom is not a bedroom.
+            This makes the WattNow score fair — a classroom is not a bedroom.
           </p>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="block text-sm">
