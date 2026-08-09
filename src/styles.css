@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * WattSight design system — energy intelligence, not eco-cliché.
+ * WattNow design system — energy intelligence, not eco-cliché.
  * Charcoal surfaces, electric lime accent, amber for electricity, red for warnings.
  */
 
@@ -68,7 +68,7 @@
   --popover-foreground: oklch(0.97 0.005 250);
 
   /* electric lime */
-  --primary: oklch(0.87 0.21 132);
+  --primary: rgb(101 244 255);
   --primary-foreground: oklch(0.2 0.03 140);
 
   --secondary: oklch(0.27 0.015 260);
@@ -92,9 +92,9 @@
 
   --border: oklch(0.31 0.014 260);
   --input: oklch(0.31 0.014 260);
-  --ring: oklch(0.87 0.21 132);
+  --ring: rgb(101 244 255);
 
-  --chart-1: oklch(0.87 0.21 132);
+  --chart-1: rgb(101 244 255);
   --chart-2: oklch(0.83 0.16 85);
   --chart-3: oklch(0.72 0.13 200);
   --chart-4: oklch(0.72 0.18 45);
@@ -132,9 +132,9 @@
 
 @utility grid-glow {
   background-image:
-    radial-gradient(circle at 50% 0%, oklch(0.87 0.21 132 / 0.18), transparent 60%),
-    linear-gradient(to bottom, oklch(0.87 0.21 132 / 0.06) 1px, transparent 1px),
-    linear-gradient(to right, oklch(0.87 0.21 132 / 0.06) 1px, transparent 1px);
+    radial-gradient(circle at 50% 0%, rgb(101 244 255 / 0.18), transparent 60%),
+    linear-gradient(to bottom, rgb(101 244 255 / 0.06) 1px, transparent 1px),
+    linear-gradient(to right, rgb(101 244 255 / 0.06) 1px, transparent 1px);
   background-size:
     100% 100%,
     100% 44px,
@@ -148,7 +148,7 @@
 }
 
 @utility text-gradient-energy {
-  background-image: linear-gradient(100deg, oklch(0.87 0.21 132), oklch(0.83 0.16 85));
+  background-image: linear-gradient(100deg, rgb(101 244 255), oklch(0.83 0.16 85));
   background-clip: text;
   color: transparent;
 }
@@ -192,5 +192,1906 @@
   body {
     background: white;
     color: black;
+  }
+}
+
+/* Route loading experience */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: oklch(0.145 0.013 260);
+  opacity: 1;
+  transition: opacity 260ms ease;
+}
+
+.page-loader--leaving {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-loader__grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle at 50% 36%, rgb(101 244 255 / 0.17), transparent 30%),
+    linear-gradient(to bottom, rgb(101 244 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(to right, rgb(101 244 255 / 0.055) 1px, transparent 1px);
+  background-size: 100% 100%, 42px 42px, 42px 42px;
+  mask-image: radial-gradient(circle at center, black, transparent 78%);
+}
+
+.page-loader__content {
+  position: relative;
+  width: min(92vw, 540px);
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.page-loader__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.page-loader__brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  box-shadow: 0 0 36px rgb(101 244 255 / 0.22);
+}
+
+.plug-animation {
+  position: relative;
+  width: 300px;
+  height: 142px;
+  margin: 34px auto 12px;
+}
+
+.plug-animation__socket,
+.plug-animation__plug {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.plug-animation__socket {
+  left: 35px;
+  width: 76px;
+  height: 92px;
+  border: 2px solid oklch(0.72 0.015 258 / 0.7);
+  border-radius: 25px;
+  background: oklch(0.205 0.014 260);
+  box-shadow: inset 0 0 0 7px oklch(0.17 0.012 260);
+  animation: socket-meet 2.35s cubic-bezier(0.2, 0.72, 0.25, 1) forwards;
+}
+
+.plug-animation__socket::after {
+  content: "";
+  position: absolute;
+  right: -18px;
+  top: 29px;
+  width: 20px;
+  height: 32px;
+  border-radius: 0 10px 10px 0;
+  background: oklch(0.27 0.015 260);
+}
+
+.plug-animation__socket-hole {
+  position: absolute;
+  right: 18px;
+  width: 9px;
+  height: 22px;
+  border-radius: 8px;
+  background: oklch(0.08 0.01 260);
+}
+
+.plug-animation__socket-hole--top { top: 18px; }
+.plug-animation__socket-hole--bottom { bottom: 18px; }
+
+.plug-animation__plug {
+  right: 17px;
+  width: 116px;
+  height: 64px;
+  animation: plug-meet 2.35s cubic-bezier(0.2, 0.72, 0.25, 1) forwards;
+}
+
+.plug-animation__plug-body {
+  position: absolute;
+  right: 20px;
+  top: 7px;
+  width: 68px;
+  height: 50px;
+  border-radius: 16px 20px 20px 16px;
+  background: linear-gradient(135deg, rgb(117 247 255), rgb(143 122 255));
+  box-shadow: 0 0 35px rgb(101 244 255 / 0.15);
+}
+
+.plug-animation__plug-body::after {
+  content: "";
+  position: absolute;
+  right: -11px;
+  top: 17px;
+  width: 18px;
+  height: 16px;
+  border-radius: 0 8px 8px 0;
+  background: rgb(143 122 255);
+}
+
+.plug-animation__pin {
+  position: absolute;
+  left: 8px;
+  width: 32px;
+  height: 7px;
+  border-radius: 5px 0 0 5px;
+  background: oklch(0.83 0.16 85);
+  box-shadow: 0 0 12px oklch(0.83 0.16 85 / 0.28);
+}
+
+.plug-animation__pin--top { top: 17px; }
+.plug-animation__pin--bottom { bottom: 17px; }
+
+.plug-animation__cable {
+  position: absolute;
+  right: -62px;
+  top: 29px;
+  width: 88px;
+  height: 8px;
+  border-radius: 99px;
+  background: oklch(0.38 0.015 260);
+}
+
+.plug-animation__spark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  color: var(--color-watt);
+  font-size: 28px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2) rotate(-30deg);
+  animation: plug-spark 3.2s ease forwards;
+}
+
+@keyframes plug-meet {
+  0% { transform: translate(28px, -50%); }
+  28% { transform: translate(25px, -50%); }
+  76%, 100% { transform: translate(-21px, -50%); }
+}
+
+@keyframes socket-meet {
+  0%, 28% { transform: translate(-12px, -50%); }
+  76%, 100% { transform: translate(8px, -50%); }
+}
+
+@keyframes plug-spark {
+  0%, 66% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(-30deg); }
+  73% { opacity: 1; transform: translate(-50%, -50%) scale(1.25) rotate(10deg); }
+  86%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.7) rotate(25deg); }
+}
+
+.page-loader__status {
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+.page-loader__fact {
+  min-height: 104px;
+  margin: 28px auto 0;
+  padding: 17px 18px;
+  border: 1px solid rgb(101 244 255 / 0.18);
+  border-radius: 18px;
+  background: oklch(0.21 0.013 260 / 0.82);
+  text-align: left;
+  box-shadow: 0 20px 50px oklch(0.08 0.01 260 / 0.25);
+}
+
+.page-loader__fact-label {
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-primary);
+}
+
+.page-loader__fact p:last-child {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-foreground);
+}
+
+.page-loader__progress {
+  width: 100%;
+  height: 3px;
+  margin-top: 22px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: oklch(0.28 0.014 260);
+}
+
+.page-loader__progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-watt));
+  transform-origin: left;
+  animation: loader-progress 3.35s linear forwards;
+}
+
+@keyframes loader-progress {
+  from { transform: scaleX(0.04); }
+  to { transform: scaleX(1); }
+}
+
+/* Login and signup */
+.auth-shell {
+  width: min(1120px, calc(100% - 32px));
+  min-height: calc(100vh - 160px);
+  margin: 0 auto;
+  display: grid;
+  gap: 42px;
+  align-items: center;
+  padding: 64px 0 80px;
+}
+
+.auth-copy h1 {
+  margin-top: 18px;
+  max-width: 620px;
+  font-size: clamp(2.7rem, 7vw, 5.4rem);
+  line-height: 0.95;
+  font-weight: 700;
+}
+
+.auth-copy > p {
+  max-width: 580px;
+  margin-top: 24px;
+  color: var(--color-muted-foreground);
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.auth-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgb(101 244 255 / 0.22);
+  border-radius: 999px;
+  background: rgb(101 244 255 / 0.08);
+  padding: 7px 11px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.auth-mini-card {
+  margin-top: 28px;
+  max-width: 520px;
+  padding: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: var(--surface);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+  padding: clamp(24px, 5vw, 38px);
+  border: 1px solid var(--color-border);
+  border-radius: 28px;
+  background: linear-gradient(180deg, oklch(0.225 0.014 260), oklch(0.195 0.013 260));
+  box-shadow: 0 32px 90px oklch(0.08 0.01 260 / 0.34);
+}
+
+.auth-field {
+  display: grid;
+  gap: 8px;
+}
+
+.auth-field > span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+
+.auth-field input {
+  width: 100%;
+  height: 50px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  outline: none;
+  background: oklch(0.17 0.012 260);
+  padding: 0 15px;
+  color: var(--color-foreground);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.auth-field input::placeholder {
+  color: oklch(0.58 0.015 258);
+}
+
+.auth-field input:focus {
+  border-color: rgb(101 244 255 / 0.7);
+  box-shadow: 0 0 0 3px rgb(101 244 255 / 0.1);
+}
+
+.auth-password-wrap {
+  position: relative;
+}
+
+.auth-password-wrap input {
+  padding-right: 48px;
+}
+
+.auth-password-wrap button {
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--color-muted-foreground);
+}
+
+.auth-password-wrap button:hover {
+  background: var(--color-accent);
+  color: var(--color-foreground);
+}
+
+.auth-submit {
+  display: inline-flex;
+  width: 100%;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 14px;
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+  font-weight: 800;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.auth-submit:hover:not(:disabled) { transform: translateY(-1px); }
+.auth-submit:disabled { cursor: wait; opacity: 0.65; }
+
+@media (min-width: 900px) {
+  .auth-shell {
+    grid-template-columns: 1fr minmax(390px, 0.78fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .plug-animation {
+    width: 260px;
+    transform: scale(0.9);
+  }
+
+  .page-loader__fact {
+    min-height: 118px;
+  }
+
+  .auth-shell {
+    padding-top: 44px;
+  }
+
+  .auth-copy h1 {
+    font-size: 3.35rem;
+  }
+
+  .auth-card {
+    margin: 0;
+    border-radius: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plug-animation__socket,
+  .plug-animation__plug,
+  .plug-animation__spark,
+  .page-loader__progress span {
+    animation-duration: 1ms !important;
+  }
+}
+
+.page-loader__status--connected {
+  color: var(--color-primary);
+}
+
+/* WattNow brand logo */
+.page-loader__brand {
+  justify-content: center;
+}
+
+.page-loader__logo {
+  width: min(44vw, 170px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 30px oklch(0.83 0.16 85 / 0.14));
+}
+
+/* Homepage interactive 3D energy scene */
+.hero-ambient {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  pointer-events: none;
+  opacity: 0.32;
+}
+
+.hero-ambient--one {
+  right: -120px;
+  top: 6%;
+  width: 380px;
+  height: 380px;
+  background: oklch(0.83 0.16 85 / 0.35);
+}
+
+.hero-ambient--two {
+  right: 22%;
+  bottom: -180px;
+  width: 330px;
+  height: 330px;
+  background: rgb(101 244 255 / 0.22);
+}
+
+.energy-scene {
+  --tilt-x: 4deg;
+  --tilt-y: -5deg;
+  --glow-x: 50%;
+  --glow-y: 45%;
+  position: relative;
+  min-height: 530px;
+  perspective: 1200px;
+  isolation: isolate;
+  touch-action: pan-y;
+}
+
+.energy-scene::before {
+  content: "";
+  position: absolute;
+  inset: 8% 2% 2%;
+  z-index: -3;
+  border-radius: 48%;
+  background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgb(101 244 255 / 0.18), transparent 52%);
+  filter: blur(20px);
+  transition: background-position 180ms ease;
+}
+
+.energy-scene__halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 380px;
+  height: 380px;
+  z-index: -2;
+  border: 1px solid rgb(101 244 255 / 0.1);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotateX(68deg);
+  background: radial-gradient(circle, oklch(0.83 0.16 85 / 0.08), transparent 65%);
+  box-shadow: 0 0 90px rgb(101 244 255 / 0.08);
+}
+
+.energy-scene__orbit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  border: 1px solid oklch(0.72 0.015 258 / 0.14);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+.energy-scene__orbit::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 20px var(--color-primary);
+}
+
+.energy-scene__orbit--one {
+  width: 450px;
+  height: 210px;
+  transform: translate(-50%, -50%) rotate(-14deg);
+  animation: wattnow-orbit 9s linear infinite;
+}
+
+.energy-scene__orbit--one::after { left: 7%; top: 44%; }
+
+.energy-scene__orbit--two {
+  width: 330px;
+  height: 480px;
+  transform: translate(-50%, -50%) rotate(31deg);
+  animation: wattnow-orbit-reverse 12s linear infinite;
+}
+
+.energy-scene__orbit--two::after { right: 11%; top: 18%; background: var(--color-watt); box-shadow: 0 0 20px var(--color-watt); }
+
+.energy-scene__stage {
+  position: absolute;
+  inset: 24px 8px 20px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  transition: transform 160ms ease-out;
+}
+
+.energy-scene__camera-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(91%, 500px);
+  overflow: hidden;
+  border: 1px solid oklch(0.72 0.015 258 / 0.24);
+  border-radius: 30px;
+  background: oklch(0.12 0.012 260);
+  box-shadow:
+    0 46px 90px oklch(0.06 0.012 260 / 0.52),
+    0 0 0 1px rgb(101 244 255 / 0.03) inset;
+  transform: translate(-50%, -50%) translateZ(22px) rotateZ(-1.5deg);
+  transform-style: preserve-3d;
+}
+
+.energy-scene__camera-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 25%, oklch(1 0 0 / 0.06) 46%, transparent 58%);
+  transform: translateX(-120%);
+  animation: wattnow-sheen 6s ease-in-out infinite;
+}
+
+.energy-scene__camera-topbar,
+.energy-scene__camera-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: oklch(0.95 0.01 250 / 0.68);
+}
+
+.energy-scene__camera-topbar {
+  top: 0;
+  background: linear-gradient(to bottom, oklch(0.08 0.01 260 / 0.88), transparent);
+}
+
+.energy-scene__camera-footer {
+  bottom: 0;
+  background: linear-gradient(to top, oklch(0.08 0.01 260 / 0.88), transparent);
+}
+
+.energy-scene__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: white;
+}
+
+.energy-scene__live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  box-shadow: 0 0 12px var(--color-primary);
+  animation: pulse-live 1.4s ease-in-out infinite;
+}
+
+.energy-scene__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  opacity: 0.88;
+  filter: saturate(0.86) contrast(1.06) brightness(0.88);
+}
+
+.energy-scene__scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10%;
+  z-index: 4;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+  box-shadow: 0 0 18px var(--color-primary);
+  opacity: 0.75;
+  animation: wattnow-hero-scan 3.1s ease-in-out infinite;
+}
+
+.energy-box {
+  position: absolute;
+  z-index: 6;
+  min-width: 74px;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 7px;
+  box-shadow: 0 0 14px rgb(101 244 255 / 0.14);
+  color: white;
+}
+
+.energy-box::before,
+.energy-box::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-color: var(--color-primary);
+}
+
+.energy-box::before { left: -2px; top: -2px; border-left: 3px solid; border-top: 3px solid; }
+.energy-box::after { right: -2px; bottom: -2px; border-right: 3px solid; border-bottom: 3px solid; }
+
+.energy-box span {
+  position: absolute;
+  left: -1px;
+  bottom: 100%;
+  padding: 3px 5px;
+  border-radius: 4px 4px 0 0;
+  background: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-primary-foreground);
+}
+
+.energy-box small {
+  position: absolute;
+  right: 4px;
+  bottom: 3px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: white;
+}
+
+.energy-box--ac { left: 20%; top: 24%; width: 37%; height: 15%; }
+.energy-box--tv { right: 16%; top: 48%; width: 30%; height: 29%; }
+.energy-box--fan { left: 11%; top: 52%; width: 19%; height: 30%; }
+
+.energy-float {
+  position: absolute;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+  padding: 11px 13px;
+  border: 1px solid oklch(0.72 0.015 258 / 0.23);
+  border-radius: 16px;
+  background: oklch(0.19 0.013 260 / 0.9);
+  box-shadow: 0 24px 55px oklch(0.06 0.012 260 / 0.38);
+  backdrop-filter: blur(15px);
+  transform-style: preserve-3d;
+}
+
+.energy-float small {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: var(--color-muted-foreground);
+}
+
+.energy-float strong {
+  display: block;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--color-foreground);
+}
+
+.energy-float__icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  place-items: center;
+  border-radius: 11px;
+  background: rgb(101 244 255 / 0.12);
+  color: var(--color-primary);
+}
+
+.energy-float__icon--amber {
+  background: oklch(0.83 0.16 85 / 0.13);
+  color: var(--color-watt);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.energy-float--power {
+  left: -3%;
+  top: 15%;
+  transform: translateZ(92px) rotateZ(-3deg);
+  animation: wattnow-float-a 4.8s ease-in-out infinite;
+}
+
+.energy-float--cost {
+  right: -4%;
+  top: 48%;
+  transform: translateZ(112px) rotateZ(2deg);
+  animation: wattnow-float-b 5.6s ease-in-out infinite;
+}
+
+.energy-float--insight {
+  left: 11%;
+  bottom: 2%;
+  transform: translateZ(78px) rotateZ(1deg);
+  animation: wattnow-float-c 5.2s ease-in-out infinite;
+}
+
+.energy-scene__spark {
+  position: absolute;
+  z-index: 10;
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgb(101 244 255 / 0.18);
+  border-radius: 50%;
+  background: oklch(0.18 0.013 260 / 0.7);
+  color: var(--color-primary);
+  box-shadow: 0 0 35px rgb(101 244 255 / 0.12);
+  backdrop-filter: blur(8px);
+}
+
+.energy-scene__spark--a { right: 6%; top: 14%; transform: translateZ(70px); }
+.energy-scene__spark--b { left: 3%; bottom: 18%; color: var(--color-watt); transform: translateZ(54px); }
+
+@keyframes wattnow-orbit {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+
+@keyframes wattnow-orbit-reverse {
+  from { rotate: 360deg; }
+  to { rotate: 0deg; }
+}
+
+@keyframes wattnow-sheen {
+  0%, 66% { transform: translateX(-120%); }
+  82%, 100% { transform: translateX(135%); }
+}
+
+@keyframes wattnow-hero-scan {
+  0%, 7% { top: 13%; opacity: 0; }
+  15% { opacity: 0.8; }
+  78% { top: 86%; opacity: 0.8; }
+  90%, 100% { top: 86%; opacity: 0; }
+}
+
+@keyframes wattnow-float-a {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -9px; }
+}
+
+@keyframes wattnow-float-b {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 11px; }
+}
+
+@keyframes wattnow-float-c {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 7px -7px; }
+}
+
+@media (max-width: 1023px) {
+  .energy-scene {
+    min-height: 520px;
+    max-width: 660px;
+    width: 100%;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .energy-scene {
+    min-height: 425px;
+    margin-top: 6px;
+  }
+
+  .energy-scene__stage { inset: 18px 2px; }
+  .energy-scene__camera-card { width: 92%; border-radius: 22px; }
+  .energy-float { min-width: 150px; padding: 8px 9px; gap: 7px; }
+  .energy-float__icon { width: 29px; height: 29px; border-radius: 9px; }
+  .energy-float strong { font-size: 10px; }
+  .energy-float small { font-size: 6px; }
+  .energy-float--power { left: 0; top: 11%; }
+  .energy-float--cost { right: -1%; top: 50%; }
+  .energy-float--insight { left: 7%; bottom: 3%; }
+  .energy-scene__spark { display: none; }
+  .energy-scene__orbit--one { width: 350px; }
+  .energy-scene__orbit--two { width: 280px; height: 360px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .energy-scene__orbit,
+  .energy-scene__camera-card::after,
+  .energy-scene__scanline,
+  .energy-float,
+  .energy-scene__live i {
+    animation: none !important;
+  }
+
+  .energy-scene__stage {
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   WattNow V3 — purple city palette + neon graffiti art direction
+   Palette is intentionally inspired by the supplied violet/blue
+   reference, while the doodles use fluorescent cyan/pink/lime.
+   ============================================================ */
+:root {
+  --background: #13054a;
+  --foreground: #fbfaff;
+  --surface: #21106e;
+  --surface-2: #2d1789;
+  --card: #241178;
+  --card-foreground: #fbfaff;
+  --popover: #20106c;
+  --popover-foreground: #fbfaff;
+  --primary: #65f4ff;
+  --primary-foreground: #12043f;
+  --secondary: #311a8b;
+  --secondary-foreground: #fbfaff;
+  --muted: #2a177c;
+  --muted-foreground: #bbb2e8;
+  --accent: #3a229b;
+  --accent-foreground: #ffffff;
+  --watt: #ffbd52;
+  --watt-foreground: #2a1244;
+  --warning: #ff7b62;
+  --warning-foreground: #24072d;
+  --destructive: #ff4f86;
+  --destructive-foreground: #ffffff;
+  --border: #6455b3;
+  --input: #5748a4;
+  --ring: #65f4ff;
+  --chart-1: #65f4ff;
+  --chart-2: #ffbd52;
+  --chart-3: #ff43d0;
+  --chart-4: #84ff66;
+  --chart-5: #a98cff;
+}
+
+body {
+  background:
+    radial-gradient(circle at 80% -10%, rgb(111 63 255 / 0.25), transparent 34rem),
+    radial-gradient(circle at -10% 38%, rgb(255 45 210 / 0.09), transparent 30rem),
+    linear-gradient(180deg, #170654 0%, #120342 52%, #0e0236 100%);
+  background-attachment: fixed;
+}
+
+.grid-glow {
+  background-image:
+    radial-gradient(circle at 68% 12%, rgb(92 74 255 / 0.40), transparent 34%),
+    radial-gradient(circle at 43% 58%, rgb(85 224 255 / 0.11), transparent 31%),
+    linear-gradient(to bottom, rgb(152 133 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(to right, rgb(152 133 255 / 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, #241083 0%, #18075d 48%, #120443 100%);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px, 100% 100%;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(145deg, rgb(76 50 179 / 0.42), rgb(29 12 96 / 0.74)),
+    var(--surface);
+  border-color: rgb(138 119 232 / 0.42);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 20px 50px rgb(6 0 48 / 0.18);
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  right: -54px;
+  top: -60px;
+  border: 2px solid rgb(101 244 255 / 0.16);
+  border-radius: 48% 52% 55% 45%;
+  transform: rotate(24deg);
+  pointer-events: none;
+}
+
+.text-gradient-energy {
+  background-image: linear-gradient(100deg, #65f4ff 0%, #ff43d0 48%, #ffbd52 100%);
+}
+
+/* ---------- Site chrome ---------- */
+header.no-print {
+  background: rgb(18 4 63 / 0.74) !important;
+  border-bottom-color: rgb(131 112 224 / 0.34) !important;
+  box-shadow: 0 12px 42px rgb(4 0 35 / 0.16);
+}
+
+header .group img,
+footer .group img {
+  filter: drop-shadow(0 0 13px rgb(101 244 255 / 0.10));
+}
+
+footer.no-print {
+  background: linear-gradient(180deg, rgb(24 8 83 / 0.35), rgb(9 2 39 / 0.68));
+  border-top-color: rgb(131 112 224 / 0.35) !important;
+}
+
+/* ---------- Homepage: purple-night + fluorescent graffiti ---------- */
+.home-hero {
+  min-height: 670px;
+  isolation: isolate;
+}
+
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  z-index: 0;
+  opacity: 0.40;
+  background:
+    linear-gradient(90deg,
+      transparent 0 4%, #0b0233 4% 9%, transparent 9% 12%,
+      #0a0230 12% 17%, transparent 17% 20%, #0b0234 20% 29%,
+      transparent 29% 32%, #09022d 32% 39%, transparent 39% 42%,
+      #0a0230 42% 51%, transparent 51% 54%, #09022d 54% 63%,
+      transparent 63% 67%, #0a0232 67% 73%, transparent 73% 77%,
+      #09022e 77% 84%, transparent 84% 88%, #08022b 88% 95%, transparent 95%);
+  clip-path: polygon(0 58%,4% 58%,4% 33%,9% 33%,9% 68%,12% 68%,12% 43%,17% 43%,17% 61%,20% 61%,20% 18%,29% 18%,29% 70%,32% 70%,32% 36%,39% 36%,39% 62%,42% 62%,42% 25%,51% 25%,51% 66%,54% 66%,54% 12%,63% 12%,63% 65%,67% 65%,67% 39%,73% 39%,73% 68%,77% 68%,77% 22%,84% 22%,84% 60%,88% 60%,88% 31%,95% 31%,95% 66%,100% 66%,100% 100%,0 100%);
+  pointer-events: none;
+}
+
+.home-hero__grid {
+  position: relative;
+  z-index: 2;
+}
+
+.home-hero__grid::before {
+  content: "";
+  position: absolute;
+  inset: 28px -18px;
+  z-index: -1;
+  border: 1px solid rgb(179 166 255 / 0.36);
+  border-radius: 42px;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.018),
+    0 0 80px rgb(90 58 255 / 0.12);
+  pointer-events: none;
+}
+
+.hero-copy {
+  align-self: center;
+  padding-block: 22px;
+}
+
+.hero-intro-copy {
+  font-size: clamp(1.12rem, 2vw, 1.42rem);
+  line-height: 1.65;
+  color: #ddd8fb;
+  text-wrap: balance;
+}
+
+.neon-graffiti {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.neon-graffiti__doodle {
+  position: absolute;
+  overflow: visible;
+  fill: none;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.78;
+}
+
+.neon-graffiti__doodle--one {
+  left: -10px;
+  top: 72px;
+  width: 180px;
+  stroke: #65f4ff;
+  filter: drop-shadow(0 0 8px rgb(101 244 255 / 0.75));
+  transform: rotate(-7deg);
+}
+
+.neon-graffiti__doodle--two {
+  right: -18px;
+  top: 112px;
+  width: 220px;
+  stroke: #ff43d0;
+  filter: drop-shadow(0 0 8px rgb(255 67 208 / 0.75));
+  transform: rotate(9deg);
+}
+
+.neon-graffiti__doodle--three {
+  left: 34%;
+  bottom: 22px;
+  width: 210px;
+  stroke: #84ff66;
+  filter: drop-shadow(0 0 7px rgb(132 255 102 / 0.72));
+  transform: rotate(3deg);
+}
+
+.neon-graffiti__word {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.1vw, 1.9rem);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.08em;
+  opacity: 0.58;
+  transform: rotate(-11deg);
+}
+
+.neon-graffiti__word--zap {
+  left: 4.5%;
+  bottom: 18%;
+  color: #ffbd52;
+  text-shadow: 0 0 10px rgb(255 189 82 / 0.95), 0 0 28px rgb(255 189 82 / 0.38);
+}
+
+.neon-graffiti__word--save {
+  right: 13%;
+  bottom: 8%;
+  color: #65f4ff;
+  text-shadow: 0 0 10px rgb(101 244 255 / 0.9);
+  transform: rotate(7deg);
+}
+
+.neon-graffiti__cross {
+  position: absolute;
+  font-size: 48px;
+  font-weight: 300;
+  line-height: 1;
+  opacity: 0.55;
+}
+
+.neon-graffiti__cross--a {
+  left: 27%;
+  top: 13%;
+  color: #84ff66;
+  text-shadow: 0 0 10px #84ff66;
+  transform: rotate(22deg);
+}
+
+.neon-graffiti__cross--b {
+  right: 33%;
+  top: 7%;
+  color: #ff43d0;
+  text-shadow: 0 0 10px #ff43d0;
+  transform: rotate(-14deg);
+}
+
+.hero-ambient--one {
+  background: rgb(255 67 208 / 0.30);
+  opacity: 0.28;
+}
+
+.hero-ambient--two {
+  background: rgb(101 244 255 / 0.26);
+  opacity: 0.32;
+}
+
+.energy-scene::before {
+  background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgb(101 244 255 / 0.18), transparent 52%);
+}
+
+.energy-scene__halo {
+  border-color: rgb(169 140 255 / 0.22);
+  background: radial-gradient(circle, rgb(255 67 208 / 0.10), rgb(101 244 255 / 0.05) 38%, transparent 68%);
+  box-shadow: 0 0 100px rgb(89 61 255 / 0.18);
+}
+
+.energy-scene__orbit {
+  border-color: rgb(188 176 255 / 0.23);
+}
+
+.energy-scene__camera-card {
+  border-color: rgb(156 139 244 / 0.42);
+  background: #0d0337;
+  box-shadow:
+    0 48px 95px rgb(6 0 48 / 0.62),
+    0 0 42px rgb(82 55 255 / 0.12),
+    0 0 0 1px rgb(101 244 255 / 0.06) inset;
+}
+
+.energy-scene__image {
+  filter: saturate(1.08) contrast(1.07) brightness(0.80) hue-rotate(8deg);
+}
+
+.energy-float {
+  border-color: rgb(153 137 242 / 0.40);
+  background: linear-gradient(145deg, rgb(52 27 141 / 0.90), rgb(20 6 72 / 0.88));
+  box-shadow: 0 24px 58px rgb(5 0 45 / 0.46), 0 0 26px rgb(101 244 255 / 0.06);
+}
+
+.energy-float__icon {
+  background: rgb(101 244 255 / 0.12);
+}
+
+.energy-float__icon--amber {
+  background: rgb(255 189 82 / 0.13);
+}
+
+.energy-scene__spark {
+  border-color: rgb(101 244 255 / 0.28);
+  background: rgb(37 16 112 / 0.78);
+}
+
+/* ---------- Real plug insertion loading animation ---------- */
+.page-loader {
+  background:
+    radial-gradient(circle at 50% 37%, rgb(89 65 255 / 0.36), transparent 31%),
+    radial-gradient(circle at 22% 78%, rgb(255 67 208 / 0.12), transparent 25%),
+    #10033f;
+}
+
+.page-loader::before,
+.page-loader::after {
+  content: "";
+  position: absolute;
+  width: 210px;
+  height: 120px;
+  border: 3px solid rgb(101 244 255 / 0.20);
+  border-radius: 49% 51% 47% 53%;
+  filter: drop-shadow(0 0 9px rgb(101 244 255 / 0.32));
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+
+.page-loader::before { left: -76px; top: 12%; }
+.page-loader::after {
+  right: -65px;
+  bottom: 11%;
+  border-color: rgb(255 67 208 / 0.20);
+  filter: drop-shadow(0 0 9px rgb(255 67 208 / 0.30));
+  transform: rotate(24deg);
+}
+
+.page-loader__grid {
+  opacity: 0.48;
+  background-image:
+    radial-gradient(circle at 50% 36%, rgb(101 244 255 / 0.16), transparent 30%),
+    linear-gradient(to bottom, rgb(154 137 240 / 0.055) 1px, transparent 1px),
+    linear-gradient(to right, rgb(154 137 240 / 0.055) 1px, transparent 1px);
+}
+
+.page-loader__logo {
+  width: min(52vw, 210px);
+  filter: drop-shadow(0 0 18px rgb(101 244 255 / 0.11));
+}
+
+.plug-animation {
+  width: 320px;
+  height: 148px;
+  margin-top: 24px;
+  overflow: visible;
+}
+
+.plug-animation__socket,
+.plug-animation__plug {
+  top: 50%;
+}
+
+.plug-animation__socket {
+  left: 36px;
+  z-index: 6;
+  width: 96px;
+  height: 106px;
+  animation: socket-impact 2.75s cubic-bezier(.2,.8,.25,1) forwards;
+  border: 2px solid rgb(181 168 255 / 0.76);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #382093, #21106c);
+  box-shadow:
+    inset 0 0 0 8px #180755,
+    0 0 34px rgb(101 244 255 / 0.09),
+    0 20px 40px rgb(3 0 35 / 0.34);
+}
+
+/* Raised lip: sits ABOVE the plug so the prongs visibly disappear inside. */
+.plug-animation__socket::after {
+  right: -14px;
+  top: 22px;
+  z-index: 8;
+  width: 26px;
+  height: 61px;
+  border: 1px solid rgb(184 171 255 / 0.46);
+  border-left: 0;
+  border-radius: 0 15px 15px 0;
+  background: linear-gradient(90deg, #2b167f, #3a2295);
+  box-shadow: 8px 0 20px rgb(101 244 255 / 0.05);
+}
+
+.plug-animation__socket-hole {
+  right: 18px;
+  z-index: 9;
+  width: 12px;
+  height: 25px;
+  border-radius: 8px;
+  background: #090125;
+  box-shadow: inset 0 0 7px rgb(0 0 0 / 0.85);
+}
+
+.plug-animation__socket-hole--top { top: 18px; }
+.plug-animation__socket-hole--bottom { bottom: 18px; }
+
+.plug-animation__plug {
+  right: 0;
+  z-index: 5;
+  width: 150px;
+  height: 68px;
+  animation: plug-in-real 2.75s cubic-bezier(.18,.76,.22,1) forwards;
+}
+
+.plug-animation__plug-body {
+  right: 32px;
+  top: 7px;
+  z-index: 5;
+  width: 76px;
+  height: 54px;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 17px 23px 23px 17px;
+  background: linear-gradient(135deg, #75f7ff 0%, #65f4ff 42%, #8f7aff 100%);
+  box-shadow: 0 0 30px rgb(101 244 255 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.3);
+}
+
+.plug-animation__plug-body::after {
+  right: -13px;
+  top: 18px;
+  width: 18px;
+  height: 18px;
+  background: #8f7aff;
+}
+
+.plug-animation__pin {
+  left: 4px;
+  z-index: 3;
+  width: 50px;
+  height: 7px;
+  border-radius: 4px 0 0 4px;
+  background: #ffbd52;
+  box-shadow: 0 0 10px rgb(255 189 82 / 0.30);
+}
+
+.plug-animation__pin--top { top: 17px; }
+.plug-animation__pin--bottom { bottom: 17px; }
+
+.plug-animation__cable {
+  right: -72px;
+  top: 30px;
+  width: 112px;
+  height: 9px;
+  background: linear-gradient(90deg, #4830a5, #26156f);
+  box-shadow: 0 0 12px rgb(84 62 190 / 0.20);
+}
+
+.plug-animation__spark {
+  left: 43.5%;
+  color: #ffbd52;
+  text-shadow: 0 0 12px #ffbd52, 0 0 30px rgb(255 67 208 / 0.6);
+  animation: plug-spark-real 2.95s ease forwards;
+}
+
+@keyframes plug-in-real {
+  0%, 18% { transform: translate(28px, -50%); }
+  54% { transform: translate(-24px, -50%); }
+  74% { transform: translate(-82px, -50%); }
+  82% { transform: translate(-76px, -50%); }
+  89%, 100% { transform: translate(-80px, -50%); }
+}
+
+@keyframes socket-impact {
+  0%, 70% { transform: translate(0, -50%) scale(1); }
+  76% { transform: translate(-3px, -50%) scale(0.985); }
+  84% { transform: translate(1px, -50%) scale(1.008); }
+  100% { transform: translate(0, -50%) scale(1); }
+}
+
+@keyframes plug-spark-real {
+  0%, 68% { opacity: 0; transform: translate(-50%, -50%) scale(0.15) rotate(-30deg); }
+  75% { opacity: 1; transform: translate(-50%, -50%) scale(1.4) rotate(8deg); }
+  86%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.7) rotate(26deg); }
+}
+
+.page-loader__fact {
+  border-color: rgb(101 244 255 / 0.22);
+  background: linear-gradient(145deg, rgb(50 27 139 / 0.82), rgb(24 8 80 / 0.86));
+  box-shadow: 0 22px 56px rgb(4 0 42 / 0.35);
+}
+
+.page-loader__progress {
+  background: #281575;
+}
+
+.page-loader__progress span {
+  background: linear-gradient(90deg, #65f4ff, #ff43d0 58%, #ffbd52);
+}
+
+/* ---------- Auth screens in the same visual language ---------- */
+.auth-card {
+  border-color: rgb(142 123 232 / 0.42);
+  background: linear-gradient(155deg, rgb(55 29 145 / 0.94), rgb(23 7 75 / 0.96));
+  box-shadow: 0 34px 90px rgb(4 0 39 / 0.42), 0 0 50px rgb(101 244 255 / 0.04);
+}
+
+.auth-mini-card {
+  background: rgb(36 17 120 / 0.72);
+  border-color: rgb(133 115 220 / 0.42);
+}
+
+.auth-field input {
+  background: #15064f;
+  border-color: rgb(120 101 207 / 0.62);
+}
+
+.auth-field input:focus {
+  border-color: rgb(101 244 255 / 0.78);
+  box-shadow: 0 0 0 3px rgb(101 244 255 / 0.11);
+}
+
+@media (max-width: 1023px) {
+  .home-hero__grid::before { inset: 22px 4px; }
+  .hero-copy { max-width: 660px; margin-inline: auto; text-align: center; }
+  .hero-copy > span { margin-inline: auto; }
+  .hero-copy .flex { justify-content: center; }
+  .hero-intro-copy { margin-inline: auto; }
+}
+
+@media (max-width: 640px) {
+  .home-hero { min-height: auto; }
+  .home-hero__grid::before { inset: 14px 4px; border-radius: 27px; }
+  .neon-graffiti__doodle--one { width: 125px; opacity: 0.5; }
+  .neon-graffiti__doodle--two { width: 145px; top: 44%; opacity: 0.45; }
+  .neon-graffiti__doodle--three { width: 130px; left: 8%; bottom: 2%; opacity: 0.42; }
+  .neon-graffiti__word { opacity: 0.35; }
+  .plug-animation { width: 280px; transform: scale(0.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plug-animation__socket,
+  .plug-animation__plug,
+  .plug-animation__spark {
+    animation-duration: 1ms !important;
+  }
+}
+
+/* ========================================================================== */
+/* WattNow photorealistic 3D plug loader                                     */
+/* Pure CSS/DOM: no image asset or WebGL dependency required.                */
+/* ========================================================================== */
+
+.plug3d {
+  --plug-white: #f7f7f5;
+  --plug-mid: #dededb;
+  --plug-shadow: #b9bab9;
+  --metal-bright: #f1f4f7;
+  --metal-mid: #aeb5bd;
+  --metal-dark: #69727c;
+  --spark-gold: #ffc84f;
+  --spark-blue: #6edcff;
+  position: relative;
+  width: min(88vw, 430px);
+  height: 238px;
+  margin: 14px auto 0;
+  perspective: 920px;
+  perspective-origin: 50% 42%;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.plug3d__studio-floor {
+  position: absolute;
+  left: 50%;
+  bottom: 17px;
+  width: 315px;
+  height: 58px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.34), rgb(0 0 0 / 0.08) 48%, transparent 72%);
+  filter: blur(8px);
+  transform: translateX(-50%) rotateX(65deg);
+  opacity: 0.78;
+  z-index: 0;
+}
+
+.plug3d__ambient {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  filter: blur(52px);
+  opacity: 0.22;
+  pointer-events: none;
+}
+
+.plug3d__ambient--gold {
+  left: 93px;
+  top: 40px;
+  background: #ffb53f;
+}
+
+.plug3d__ambient--blue {
+  left: 181px;
+  top: 47px;
+  background: #48c9ff;
+}
+
+/* Background layer: the socket stays behind the foreground plug. */
+.plug3d__socket-wrap {
+  position: absolute;
+  left: 74px;
+  top: 42px;
+  width: 154px;
+  height: 166px;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: rotateX(8deg) rotateY(-17deg) rotateZ(-1.5deg);
+  filter: drop-shadow(16px 24px 18px rgb(0 0 0 / 0.28));
+}
+
+.plug3d__socket-shadow {
+  position: absolute;
+  inset: 19px -10px -12px 18px;
+  border-radius: 34px;
+  background: rgb(0 0 0 / 0.28);
+  filter: blur(16px);
+  transform: translateZ(-18px) translateX(7px);
+}
+
+.plug3d__socket-plate {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(255 255 255 / 0.86);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 27% 18%, rgb(255 255 255 / 0.98), transparent 24%),
+    linear-gradient(145deg, #ffffff 0%, #f2f2ef 38%, #d7d8d5 72%, #f7f7f5 100%);
+  box-shadow:
+    inset 2px 2px 3px rgb(255 255 255 / 0.95),
+    inset -6px -7px 14px rgb(130 133 136 / 0.18),
+    0 10px 25px rgb(0 0 0 / 0.18);
+  transform-style: preserve-3d;
+}
+
+.plug3d__socket-highlight {
+  position: absolute;
+  left: 19px;
+  top: 13px;
+  width: 83px;
+  height: 29px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.95), transparent);
+  filter: blur(1.5px);
+  opacity: 0.72;
+}
+
+.plug3d__socket-bevel {
+  position: absolute;
+  inset: 11px;
+  border: 1px solid rgb(159 162 163 / 0.28);
+  border-radius: 27px;
+  box-shadow:
+    inset 2px 2px 4px rgb(255 255 255 / 0.9),
+    inset -3px -4px 7px rgb(121 125 128 / 0.14);
+}
+
+.plug3d__socket-face {
+  position: absolute;
+  right: 18px;
+  top: 42px;
+  width: 78px;
+  height: 82px;
+  border-radius: 29px;
+  background:
+    radial-gradient(circle at 35% 27%, #f9faf8, #e8e9e6 52%, #cfd1ce 100%);
+  border: 1px solid rgb(137 141 144 / 0.28);
+  box-shadow:
+    inset 5px 6px 11px rgb(255 255 255 / 0.75),
+    inset -6px -7px 13px rgb(108 112 116 / 0.15),
+    5px 7px 11px rgb(92 95 98 / 0.16);
+  transform: translateZ(8px);
+}
+
+.plug3d__socket-hole {
+  position: absolute;
+  left: 26px;
+  width: 22px;
+  height: 13px;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 42% 42%, #1c2024 0 24%, #080a0d 45%, #34383c 72%, #15181b 100%);
+  box-shadow:
+    inset 3px 2px 4px rgb(0 0 0 / 0.9),
+    0 1px 0 rgb(255 255 255 / 0.55);
+  transform: rotate(-2deg);
+}
+
+.plug3d__socket-hole--top { top: 20px; }
+.plug3d__socket-hole--bottom { bottom: 19px; }
+
+.plug3d__socket-inner-shadow {
+  position: absolute;
+  right: -3px;
+  top: 12px;
+  width: 18px;
+  height: 57px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, transparent, rgb(78 82 85 / 0.24));
+  filter: blur(1px);
+}
+
+/* Foreground layer: the male plug travels toward and finally overlaps socket. */
+.plug3d__plug-wrap {
+  position: absolute;
+  left: 230px;
+  top: 79px;
+  width: 205px;
+  height: 92px;
+  z-index: 8;
+  transform-style: preserve-3d;
+  transform-origin: 62px 46px;
+  animation: plug3d-insert 2.58s cubic-bezier(.18,.72,.2,1) forwards;
+  will-change: transform;
+}
+
+.plug3d__plug-shadow {
+  position: absolute;
+  left: 57px;
+  top: 61px;
+  width: 124px;
+  height: 29px;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.28);
+  filter: blur(13px);
+  transform: translateZ(-26px) rotate(-4deg);
+}
+
+.plug3d__plug {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 181px;
+  height: 86px;
+  transform-style: preserve-3d;
+}
+
+.plug3d__prong {
+  position: absolute;
+  left: 0;
+  width: 70px;
+  height: 10px;
+  z-index: 4;
+  border-radius: 7px 1px 1px 7px;
+  background:
+    linear-gradient(180deg,
+      var(--metal-bright) 0%,
+      #dce2e7 22%,
+      var(--metal-mid) 48%,
+      var(--metal-dark) 77%,
+      #d6dbe0 100%);
+  border: 1px solid rgb(70 77 84 / 0.28);
+  box-shadow:
+    inset 0 2px 2px rgb(255 255 255 / 0.92),
+    inset 0 -2px 2px rgb(59 65 71 / 0.32),
+    0 2px 5px rgb(0 0 0 / 0.24);
+}
+
+.plug3d__prong::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 5px;
+  top: 1px;
+  height: 2px;
+  border-radius: 99px;
+  background: rgb(255 255 255 / 0.82);
+}
+
+.plug3d__prong--top {
+  top: 22px;
+  transform: rotate(-1.5deg) translateZ(5px);
+}
+
+.plug3d__prong--bottom {
+  top: 55px;
+  transform: rotate(1deg) translateZ(3px);
+}
+
+.plug3d__plug-neck {
+  position: absolute;
+  left: 52px;
+  top: 13px;
+  width: 31px;
+  height: 61px;
+  z-index: 5;
+  border-radius: 13px 6px 6px 13px;
+  background: linear-gradient(105deg, #dedfdd 0%, #fafaf8 40%, #c9cbc8 100%);
+  border: 1px solid rgb(128 132 134 / 0.2);
+  box-shadow:
+    inset 3px 2px 4px rgb(255 255 255 / 0.85),
+    inset -4px -2px 5px rgb(110 114 117 / 0.13);
+}
+
+.plug3d__plug::after {
+  content: "";
+  position: absolute;
+  left: 69px;
+  top: 5px;
+  width: 111px;
+  height: 76px;
+  z-index: 6;
+  border: 1px solid rgb(146 149 150 / 0.22);
+  border-radius: 24px 38px 39px 22px;
+  background:
+    radial-gradient(ellipse at 35% 13%, rgb(255 255 255 / 0.98), transparent 27%),
+    linear-gradient(150deg, #ffffff 0%, var(--plug-white) 38%, #dedfdd 68%, #f5f5f2 100%);
+  box-shadow:
+    inset 5px 5px 7px rgb(255 255 255 / 0.9),
+    inset -8px -8px 13px rgb(107 111 113 / 0.12),
+    8px 11px 18px rgb(0 0 0 / 0.24);
+}
+
+.plug3d__plug-highlight {
+  position: absolute;
+  left: 88px;
+  top: 13px;
+  width: 62px;
+  height: 19px;
+  z-index: 7;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.92), transparent);
+  filter: blur(1px);
+  transform: rotate(-6deg);
+}
+
+.plug3d__grip-line {
+  position: absolute;
+  left: 137px;
+  z-index: 8;
+  width: 2px;
+  height: 47px;
+  top: 20px;
+  border-radius: 99px;
+  background: linear-gradient(180deg, transparent, rgb(136 139 140 / 0.26), transparent);
+}
+
+.plug3d__grip-line--one { transform: translateX(0); }
+.plug3d__grip-line--two { transform: translateX(8px); }
+.plug3d__grip-line--three { transform: translateX(16px); }
+
+.plug3d__cable {
+  position: absolute;
+  left: 165px;
+  top: 35px;
+  width: 116px;
+  height: 18px;
+  z-index: 1;
+  border-radius: 0 99px 99px 0;
+  background:
+    linear-gradient(180deg, #f7f7f4 0%, #dedfdd 50%, #bfc1bf 100%);
+  border: 1px solid rgb(107 111 113 / 0.18);
+  box-shadow:
+    inset 0 3px 3px rgb(255 255 255 / 0.8),
+    3px 5px 8px rgb(0 0 0 / 0.18);
+  transform: rotate(8deg) translateZ(-10px);
+}
+
+/* The lip is intentionally above both layers: it masks the prongs at the
+   contact point so the metal visually disappears INSIDE the socket holes. */
+.plug3d__socket-lip {
+  position: absolute;
+  left: 188px;
+  top: 83px;
+  width: 25px;
+  height: 79px;
+  z-index: 12;
+  border-radius: 11px 18px 18px 10px;
+  background:
+    linear-gradient(90deg, #d3d5d2 0%, #f7f7f4 44%, #dadbd8 100%);
+  border: 1px solid rgb(135 139 141 / 0.22);
+  box-shadow:
+    inset 3px 0 4px rgb(255 255 255 / 0.8),
+    5px 3px 8px rgb(77 80 82 / 0.12);
+  transform: rotateX(8deg) rotateY(-17deg) rotateZ(-1.5deg);
+  clip-path: polygon(0 7%, 100% 0, 100% 100%, 0 93%);
+}
+
+.plug3d__contact-glow {
+  position: absolute;
+  left: 192px;
+  top: 115px;
+  width: 36px;
+  height: 44px;
+  z-index: 11;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgb(255 244 194 / 0.95) 0 8%, rgb(255 190 65 / 0.55) 18%, rgb(78 195 255 / 0.34) 40%, transparent 72%);
+  filter: blur(4px);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.25);
+  animation: plug3d-contact-glow 2.92s ease forwards;
+  pointer-events: none;
+}
+
+.plug3d__sparks {
+  position: absolute;
+  left: 192px;
+  top: 115px;
+  width: 1px;
+  height: 1px;
+  z-index: 14;
+  pointer-events: none;
+}
+
+.plug3d__spark {
+  --spark-angle: 0deg;
+  --spark-length: 20px;
+  --spark-delay: 0ms;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--spark-length);
+  height: 2px;
+  border-radius: 99px;
+  opacity: 0;
+  transform-origin: 0 50%;
+  transform: rotate(var(--spark-angle)) scaleX(0.05);
+  animation: plug3d-spark 690ms cubic-bezier(.12,.75,.25,1) calc(2.32s + var(--spark-delay)) both;
+}
+
+.plug3d__spark--gold {
+  background: linear-gradient(90deg, #fffbd8, var(--spark-gold), transparent);
+  box-shadow: 0 0 5px #ffd466, 0 0 9px rgb(255 181 55 / 0.75);
+}
+
+.plug3d__spark--blue {
+  background: linear-gradient(90deg, #ffffff, var(--spark-blue), transparent);
+  box-shadow: 0 0 5px #9eeaff, 0 0 9px rgb(75 197 255 / 0.75);
+}
+
+.plug3d__spark-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  opacity: 0;
+  background: #fff5c1;
+  box-shadow: 0 0 7px #ffc84f;
+  animation: plug3d-spark-dot 720ms ease 2.37s both;
+}
+
+.plug3d__spark-dot--one { --dot-x: -20px; --dot-y: -15px; }
+.plug3d__spark-dot--two { --dot-x: 13px; --dot-y: -22px; animation-delay: 2.43s; background: #b7efff; box-shadow: 0 0 7px #6edcff; }
+.plug3d__spark-dot--three { --dot-x: 17px; --dot-y: 16px; animation-delay: 2.48s; }
+
+@keyframes plug3d-insert {
+  0%, 13% {
+    transform: translate3d(82px, 20px, 88px) rotateX(-3deg) rotateY(9deg) rotateZ(-8deg);
+  }
+  47% {
+    transform: translate3d(18px, 7px, 48px) rotateX(-1deg) rotateY(5deg) rotateZ(-6deg);
+  }
+  77% {
+    transform: translate3d(-94px, -6px, 1px) rotateX(0) rotateY(0) rotateZ(-2.7deg);
+  }
+  84% {
+    transform: translate3d(-88px, -5px, 3px) rotateX(0) rotateY(0) rotateZ(-3deg);
+  }
+  91%, 100% {
+    transform: translate3d(-92px, -6px, 0) rotateX(0) rotateY(0) rotateZ(-2.8deg);
+  }
+}
+
+@keyframes plug3d-contact-glow {
+  0%, 72% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  80% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.35); }
+  91% { opacity: 0.36; transform: translate(-50%, -50%) scale(0.92); }
+  100% { opacity: 0.16; transform: translate(-50%, -50%) scale(0.72); }
+}
+
+@keyframes plug3d-spark {
+  0% { opacity: 0; transform: rotate(var(--spark-angle)) scaleX(0.05); }
+  17% { opacity: 1; transform: rotate(var(--spark-angle)) scaleX(1); }
+  58% { opacity: 0.72; transform: rotate(var(--spark-angle)) scaleX(0.72) translateX(5px); }
+  100% { opacity: 0; transform: rotate(var(--spark-angle)) scaleX(0.1) translateX(12px); }
+}
+
+@keyframes plug3d-spark-dot {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dot-x), var(--dot-y)) scale(0.1); }
+}
+
+.plug3d--connected .plug3d__plug::after {
+  box-shadow:
+    inset 5px 5px 7px rgb(255 255 255 / 0.9),
+    inset -8px -8px 13px rgb(107 111 113 / 0.12),
+    8px 11px 18px rgb(0 0 0 / 0.24),
+    -3px 0 13px rgb(255 201 75 / 0.10);
+}
+
+/* Slightly cleaner loader staging so the photorealistic object has room. */
+.page-loader__content {
+  width: min(94vw, 570px);
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.page-loader__brand {
+  display: flex;
+  justify-content: center;
+}
+
+.page-loader__status {
+  margin-top: -2px;
+}
+
+@media (max-width: 560px) {
+  .plug3d {
+    width: 390px;
+    max-width: 104vw;
+    height: 220px;
+    margin-left: 50%;
+    transform: translateX(-50%) scale(0.86);
+    transform-origin: 50% 34%;
+    margin-bottom: -18px;
+  }
+
+  .page-loader__logo {
+    width: min(48vw, 175px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plug3d__plug-wrap {
+    animation: none !important;
+    transform: translate3d(-92px, -6px, 0) rotateZ(-2.8deg);
+  }
+
+  .plug3d__spark,
+  .plug3d__spark-dot,
+  .plug3d__contact-glow {
+    animation: none !important;
+    opacity: 0;
   }
 }

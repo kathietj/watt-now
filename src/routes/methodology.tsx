@@ -5,16 +5,16 @@ import { TARIFF_CONFIG } from "@/lib/energy";
 export const Route = createFileRoute("/methodology")({
   head: () => ({
     meta: [
-      { title: "How WattSight Estimates Electricity — Methodology" },
+      { title: "How WattNow Estimates Electricity — Methodology" },
       {
         name: "description",
         content:
-          "WattSight does not measure electricity. Here is exactly how appliance detection, typical wattage ranges, usage hours and tariffs turn into an estimate.",
+          "WattNow does not measure electricity. Here is exactly how appliance detection, typical wattage ranges, usage hours and tariffs turn into an estimate.",
       },
-      { property: "og:title", content: "How WattSight Estimates Electricity" },
+      { property: "og:title", content: "How WattNow Estimates Electricity" },
       {
         property: "og:description",
-        content: "The assumptions, formulas and limitations behind every WattSight number.",
+        content: "The assumptions, formulas and limitations behind every WattNow number.",
       },
     ],
   }),
@@ -28,11 +28,11 @@ function MethodologyPage() {
       <main className="mx-auto max-w-3xl px-4 py-12">
         <h1 className="text-3xl font-bold sm:text-4xl">About &amp; Methodology</h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          WattSight does not measure electricity directly. It estimates it.
+          WattNow does not measure electricity directly. It estimates it.
         </p>
 
         <section className="mt-10 space-y-4">
-          <h2 className="text-xl font-semibold">What WattSight actually uses</h2>
+          <h2 className="text-xl font-semibold">What WattNow actually uses</h2>
           <ul className="space-y-2 text-sm leading-relaxed text-muted-foreground">
             <li>• The appliance types visually detected in your photo.</li>
             <li>• Typical wattage ranges for comparable appliances available in Indonesia.</li>
@@ -101,7 +101,7 @@ annual cost  = daily cost × 365`}
           <p className="text-sm leading-relaxed text-muted-foreground">
             "Device detected" means the appliance appears in the photograph. "Likely active" means the
             system believes it may currently be operating. When operating state cannot be determined
-            visually, WattSight shows "Unknown" and asks you to decide. Estimates are never presented
+            visually, WattNow shows "Unknown" and asks you to decide. Estimates are never presented
             as measurements.
           </p>
         </section>

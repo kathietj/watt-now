@@ -7,13 +7,13 @@ import { deleteScan, useScanStore } from "@/lib/scan-store";
 export const Route = createFileRoute("/history")({
   head: () => ({
     meta: [
-      { title: "My Energy Scans — WattSight" },
+      { title: "My Energy Scans — WattNow" },
       {
         name: "description",
         content:
           "Compare rooms you have scanned before and track whether your estimated electricity cost is going down.",
       },
-      { property: "og:title", content: "My Energy Scans — WattSight" },
+      { property: "og:title", content: "My Energy Scans — WattNow" },
       { property: "og:description", content: "Track estimated room electricity cost over time." },
     ],
   }),

@@ -23,7 +23,7 @@ interface State {
   tariff: number;
 }
 
-const KEY = "wattsight:v1";
+const KEY = "wattnow:v1";
 
 function load(): State {
   if (typeof window === "undefined") return { current: null, history: [], tariff: TARIFF_CONFIG.defaultRpPerKwh };

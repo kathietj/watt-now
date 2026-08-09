@@ -1,18 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ScanLine, Cpu, PiggyBank, ShieldCheck, Smartphone, Zap } from "lucide-react";
+import { Camera, ScanLine, Cpu, PiggyBank, ShieldCheck, Smartphone, Zap, Activity, Gauge, Sparkles } from "lucide-react";
 import heroImage from "@/assets/hero-scan.jpg";
 import { SiteHeader, SiteFooter, EstimateNotice } from "@/components/site-chrome";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "WattSight — See Where Your Electricity Goes" },
+      { title: "WattNow — Visual Energy Audit" },
       {
         name: "description",
         content:
           "Scan a room with your camera and let AI estimate the electricity consumption, cost in Rupiah, and possible energy waste around you. No hardware, no app download.",
       },
-      { property: "og:title", content: "WattSight — See Where Your Electricity Goes" },
+      { property: "og:title", content: "WattNow — Visual Energy Audit" },
       {
         property: "og:description",
         content:
@@ -41,22 +41,125 @@ const STEPS = [
   },
 ];
 
+function HeroEnergyScene() {
+  return (
+    <div
+      className="energy-scene"
+      onPointerMove={(event) => {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const element = event.currentTarget;
+        const rect = element.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        element.style.setProperty("--tilt-y", `${x * 10}deg`);
+        element.style.setProperty("--tilt-x", `${y * -8}deg`);
+        element.style.setProperty("--glow-x", `${50 + x * 22}%`);
+        element.style.setProperty("--glow-y", `${45 + y * 18}%`);
+      }}
+      onPointerLeave={(event) => {
+        const element = event.currentTarget;
+        element.style.setProperty("--tilt-y", "-5deg");
+        element.style.setProperty("--tilt-x", "4deg");
+        element.style.setProperty("--glow-x", "50%");
+        element.style.setProperty("--glow-y", "45%");
+      }}
+      aria-label="Interactive 3D preview of WattNow identifying electronics in a room"
+    >
+      <div className="energy-scene__halo" aria-hidden="true" />
+      <div className="energy-scene__orbit energy-scene__orbit--one" aria-hidden="true" />
+      <div className="energy-scene__orbit energy-scene__orbit--two" aria-hidden="true" />
+
+      <div className="energy-scene__stage">
+        <div className="energy-scene__camera-card">
+          <div className="energy-scene__camera-topbar">
+            <span className="energy-scene__live"><i /> LIVE SCAN</span>
+            <span className="font-mono text-[10px] text-white/55">6 DEVICES</span>
+          </div>
+          <img
+            src={heroImage}
+            alt="Room camera preview with electronic devices"
+            width={1280}
+            height={960}
+            className="energy-scene__image"
+          />
+          <div className="energy-scene__scanline" aria-hidden="true" />
+          <div className="energy-box energy-box--ac"><span>AC</span><small>94%</small></div>
+          <div className="energy-box energy-box--tv"><span>TV</span><small>88%</small></div>
+          <div className="energy-box energy-box--fan"><span>FAN</span><small>82%</small></div>
+          <div className="energy-scene__camera-footer">
+            <span>AI VISUAL ENERGY AUDIT</span>
+            <span>WATTNOW</span>
+          </div>
+        </div>
+
+        <div className="energy-float energy-float--power">
+          <span className="energy-float__icon"><Gauge className="size-4" /></span>
+          <div><small>EST. ACTIVE POWER</small><strong>1.2–2.1 kW</strong></div>
+        </div>
+
+        <div className="energy-float energy-float--cost">
+          <span className="energy-float__icon energy-float__icon--amber">Rp</span>
+          <div><small>MONTHLY RANGE</small><strong>Rp 374k–629k</strong></div>
+        </div>
+
+        <div className="energy-float energy-float--insight">
+          <span className="energy-float__icon"><Activity className="size-4" /></span>
+          <div><small>ENERGY BLIND SPOT</small><strong>Air Conditioner · 54%</strong></div>
+        </div>
+
+        <div className="energy-scene__spark energy-scene__spark--a"><Sparkles className="size-4" /></div>
+        <div className="energy-scene__spark energy-scene__spark--b"><Zap className="size-4" /></div>
+      </div>
+    </div>
+  );
+}
+
+
+function NeonGraffiti() {
+  return (
+    <div className="neon-graffiti" aria-hidden="true">
+      <svg className="neon-graffiti__doodle neon-graffiti__doodle--one" viewBox="0 0 180 140">
+        <path d="M18 87 C42 52 65 112 93 75 C116 45 130 58 159 23" />
+        <path d="M118 18 L106 50 L128 47 L109 85" />
+        <circle cx="52" cy="39" r="18" />
+        <path d="M41 38 Q52 25 63 38 M43 47 Q52 55 62 47" />
+      </svg>
+      <svg className="neon-graffiti__doodle neon-graffiti__doodle--two" viewBox="0 0 210 170">
+        <path d="M18 133 Q38 81 73 119 T130 91 T190 55" />
+        <path d="M44 38 L57 55 L42 64 L62 82" />
+        <path d="M145 22 L149 37 L165 38 L153 48 L157 64 L144 54 L131 64 L136 48 L124 38 L140 37 Z" />
+        <circle cx="102" cy="62" r="27" />
+        <path d="M90 62 C97 50 109 50 116 62 C109 74 97 74 90 62" />
+      </svg>
+      <svg className="neon-graffiti__doodle neon-graffiti__doodle--three" viewBox="0 0 190 130">
+        <path d="M14 62 C32 39 51 38 68 60 S102 84 121 58 S155 36 177 55" />
+        <path d="M29 96 L48 75 L61 97 L79 75 L91 96" />
+        <path d="M132 92 C141 74 158 75 165 92 C156 103 141 104 132 92 Z" />
+      </svg>
+      <span className="neon-graffiti__word neon-graffiti__word--zap">ZAP!</span>
+      <span className="neon-graffiti__word neon-graffiti__word--save">SAVE</span>
+      <span className="neon-graffiti__cross neon-graffiti__cross--a">×</span>
+      <span className="neon-graffiti__cross neon-graffiti__cross--b">+</span>
+    </div>
+  );
+}
+
 function Landing() {
   return (
     <div className="min-h-screen">
       <SiteHeader />
 
       <main>
-        <section className="grid-glow relative overflow-hidden border-b border-border/60">
-          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:py-24">
-            <div>
+        <section className="grid-glow home-hero relative overflow-hidden border-b border-border/60">
+          <NeonGraffiti />
+          <div className="hero-ambient hero-ambient--one" aria-hidden="true" />
+          <div className="hero-ambient hero-ambient--two" aria-hidden="true" />
+          <div className="home-hero__grid mx-auto grid max-w-6xl gap-12 px-4 py-16 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:py-24">
+            <div className="hero-copy relative z-10">
               <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-xs uppercase tracking-widest text-primary">
                 <Zap className="size-3" /> Visual energy audit
               </span>
-              <h1 className="mt-5 text-4xl font-bold leading-[1.05] sm:text-5xl lg:text-6xl">
-                See Where Your <span className="text-gradient-energy">Electricity</span> Goes.
-              </h1>
-              <p className="mt-5 max-w-xl text-lg text-muted-foreground">
+              <p className="hero-intro-copy mt-6 max-w-xl text-lg text-muted-foreground">
                 Scan a room with your camera and let AI estimate the electricity consumption, cost,
                 and possible energy waste around you.
               </p>
@@ -86,33 +189,14 @@ function Landing() {
               </div>
             </div>
 
-            <div className="relative">
-              <div className="overflow-hidden rounded-3xl border border-border bg-surface shadow-2xl">
-                <img
-                  src={heroImage}
-                  alt="Phone camera view of a living room with AI bounding boxes around an air conditioner, television and fan"
-                  width={1280}
-                  height={960}
-                  className="w-full object-cover"
-                />
-              </div>
-              <div className="panel absolute -bottom-6 left-4 right-4 p-4 shadow-xl sm:left-8 sm:right-auto sm:w-72">
-                <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                  Estimated monthly cost
-                </p>
-                <p className="mt-1 text-2xl font-bold text-gradient-energy">
-                  Rp 374.000–Rp 629.000
-                </p>
-                <p className="mt-1 text-xs text-muted-foreground">Estimate, not a measurement.</p>
-              </div>
-            </div>
+            <HeroEnergyScene />
           </div>
         </section>
 
         <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-20">
           <h2 className="text-3xl font-bold sm:text-4xl">Point. Scan. Understand your electricity.</h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Your bill tells you a total. WattSight turns any camera into an electricity-awareness
+            Your bill tells you a total. WattNow turns any camera into an electricity-awareness
             interface so you can see which objects around you are responsible for it.
           </p>
 
@@ -137,7 +221,7 @@ function Landing() {
             <div>
               <h2 className="text-2xl font-bold">Honest by design</h2>
               <p className="mt-3 text-sm text-muted-foreground">
-                A camera cannot measure electricity. WattSight always shows ranges, confidence
+                A camera cannot measure electricity. WattNow always shows ranges, confidence
                 levels, and lets you correct every detection before anything is calculated.
               </p>
               <Link to="/methodology" className="mt-4 inline-block text-sm font-medium text-primary">

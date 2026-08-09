@@ -1,5 +1,5 @@
 /**
- * WattSight energy model.
+ * WattNow energy model.
  * Everything here produces ESTIMATES, never measurements.
  */
 
@@ -190,7 +190,7 @@ export interface ScoreResult {
   notes: string[];
 }
 
-export function computeWattSightScore(
+export function computeWattNowScore(
   appliances: Appliance[],
   totals: RoomTotals,
   roomType: RoomType,

@@ -50,7 +50,7 @@ export const APPLIANCE_CATALOG: Record<string, CatalogEntry> = {
 export const CATALOG_KEYS = Object.keys(APPLIANCE_CATALOG);
 
 /**
- * Maps generic pretrained detector classes (COCO) to WattSight electronics keys.
+ * Maps generic pretrained detector classes (COCO) to WattNow electronics keys.
  * A custom electronics model can later add: air_conditioner, socket, router,
  * air_purifier, ceiling_light — classes COCO does not know.
  */
