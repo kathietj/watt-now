@@ -161,9 +161,12 @@ const GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/models
 const LOVABLE_GATEWAY = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const REQUEST_TIMEOUT_MS = 45_000;
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type LooseObj = any;
+
 class AiBackendError extends Error {
   code: string;
-  status?: number;
+  status?: number | undefined;
 
   constructor(code: string, message: string, status?: number) {
     super(message);
@@ -284,11 +287,11 @@ function normalizeConfidence(value: unknown): (typeof CONFIDENCE_VALUES)[number]
 }
 
 function normalizeAnalysis(raw: unknown): AnalysisResult {
-  const obj = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const obj = raw && typeof raw === "object" ? (raw as LooseObj) : {};
   const rawDevices = Array.isArray(obj.devices) ? obj.devices : [];
   const devices = rawDevices
     .map((item) => {
-      const d = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
+      const d = item && typeof item === "object" ? (item as LooseObj) : {};
       const name = String(d.name ?? d.device ?? d.appliance ?? "Electronic Device").trim() || "Electronic Device";
       const minRaw = Math.max(0, toNumber(d.powerMinWatts ?? d.minWatts ?? d.minimumWatts, 10));
       const maxRaw = Math.max(minRaw, toNumber(d.powerMaxWatts ?? d.maxWatts ?? d.maximumWatts, Math.max(minRaw, 100)));
@@ -325,10 +328,10 @@ function normalizeAnalysis(raw: unknown): AnalysisResult {
 }
 
 function normalizeCoaching(raw: unknown): CoachingResult {
-  const obj = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const obj = raw && typeof raw === "object" ? (raw as LooseObj) : {};
   const recs = Array.isArray(obj.recommendations) ? obj.recommendations : [];
   const recommendations = recs.slice(0, 3).map((item) => {
-    const r = item && typeof item === "object" ? (item as Record<string, unknown>) : {};
+    const r = item && typeof item === "object" ? (item as LooseObj) : {};
     return {
       title: String(r.title ?? "Energy-saving opportunity"),
       impact: String(r.impact ?? "Medium"),
@@ -336,7 +339,7 @@ function normalizeCoaching(raw: unknown): CoachingResult {
       changeHint: String(r.changeHint ?? r.change_hint ?? ""),
     };
   });
-  const one = obj.oneChange && typeof obj.oneChange === "object" ? (obj.oneChange as Record<string, unknown>) : undefined;
+  const one = obj.oneChange && typeof obj.oneChange === "object" ? (obj.oneChange as LooseObj) : undefined;
 
   return CoachingSchema.parse({
     verdict: String(obj.verdict ?? ""),
@@ -348,13 +351,13 @@ function normalizeCoaching(raw: unknown): CoachingResult {
 }
 
 function extractGeminiText(json: unknown): string {
-  const root = json && typeof json === "object" ? (json as Record<string, unknown>) : {};
+  const root = json && typeof json === "object" ? (json as LooseObj) : {};
   const candidates = Array.isArray(root.candidates) ? root.candidates : [];
-  const first = candidates[0] && typeof candidates[0] === "object" ? (candidates[0] as Record<string, unknown>) : {};
-  const content = first.content && typeof first.content === "object" ? (first.content as Record<string, unknown>) : {};
+  const first = candidates[0] && typeof candidates[0] === "object" ? (candidates[0] as LooseObj) : {};
+  const content = first.content && typeof first.content === "object" ? (first.content as LooseObj) : {};
   const parts = Array.isArray(content.parts) ? content.parts : [];
   return parts
-    .map((part) => (part && typeof part === "object" ? String((part as Record<string, unknown>).text ?? "") : ""))
+    .map((part) => (part && typeof part === "object" ? String((part as LooseObj).text ?? "") : ""))
     .join("")
     .trim();
 }
@@ -367,7 +370,7 @@ async function callGeminiJson(args: {
   const apiKey = getGeminiKey();
   if (!apiKey) throw new AiBackendError("AI_NOT_CONFIGURED", "No Gemini API key is configured.");
 
-  const parts: Record<string, unknown>[] = [{ text: args.prompt }];
+  const parts: LooseObj[] = [{ text: args.prompt }];
   if (args.imageDataUrl) {
     const { mimeType, base64 } = parseDataUrl(args.imageDataUrl);
     parts.push({ inline_data: { mime_type: mimeType, data: base64 } });
@@ -402,7 +405,7 @@ async function callGeminiJson(args: {
 
     const outputText = extractGeminiText(responseJson);
     if (!outputText) {
-      const root = responseJson && typeof responseJson === "object" ? (responseJson as Record<string, unknown>) : {};
+      const root = responseJson && typeof responseJson === "object" ? (responseJson as LooseObj) : {};
       const feedback = root.promptFeedback ? ` Prompt feedback: ${JSON.stringify(root.promptFeedback).slice(0, 300)}` : "";
       throw new AiBackendError("AI_EMPTY", `Gemini returned no analysis.${feedback}`);
     }
@@ -411,15 +414,15 @@ async function callGeminiJson(args: {
 }
 
 function extractLovableText(json: unknown): string {
-  const root = json && typeof json === "object" ? (json as Record<string, unknown>) : {};
+  const root = json && typeof json === "object" ? (json as LooseObj) : {};
   const choices = Array.isArray(root.choices) ? root.choices : [];
-  const first = choices[0] && typeof choices[0] === "object" ? (choices[0] as Record<string, unknown>) : {};
-  const message = first.message && typeof first.message === "object" ? (first.message as Record<string, unknown>) : {};
+  const first = choices[0] && typeof choices[0] === "object" ? (choices[0] as LooseObj) : {};
+  const message = first.message && typeof first.message === "object" ? (first.message as LooseObj) : {};
   const content = message.content;
   if (typeof content === "string") return content;
   if (Array.isArray(content)) {
     return content
-      .map((part) => (part && typeof part === "object" ? String((part as Record<string, unknown>).text ?? "") : ""))
+      .map((part) => (part && typeof part === "object" ? String((part as LooseObj).text ?? "") : ""))
       .join("")
       .trim();
   }
@@ -503,11 +506,11 @@ export async function analyzeRoomImage(imageDataUrl: string, hint: string): Prom
 }
 
 function localCoachingFallback(payload: unknown): CoachingResult {
-  const root = payload && typeof payload === "object" ? (payload as Record<string, unknown>) : {};
-  const totals = root.totals && typeof root.totals === "object" ? (root.totals as Record<string, unknown>) : {};
+  const root = payload && typeof payload === "object" ? (payload as LooseObj) : {};
+  const totals = root.totals && typeof root.totals === "object" ? (root.totals as LooseObj) : {};
   const devices = Array.isArray(root.devices) ? root.devices : [];
   const rows = devices
-    .map((item) => (item && typeof item === "object" ? (item as Record<string, unknown>) : {}))
+    .map((item) => (item && typeof item === "object" ? (item as LooseObj) : {}))
     .sort((a, b) => toNumber(b.sharePct, 0) - toNumber(a.sharePct, 0));
   const top = rows[0];
   const topName = top ? String(top.name ?? "the largest appliance") : "the largest appliance";
