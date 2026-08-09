@@ -290,7 +290,7 @@ function normalizeAnalysis(raw: unknown): AnalysisResult {
   const obj = raw && typeof raw === "object" ? (raw as LooseObj) : {};
   const rawDevices = Array.isArray(obj.devices) ? obj.devices : [];
   const devices = rawDevices
-    .map((item) => {
+    .map((item: any) => {
       const d = item && typeof item === "object" ? (item as LooseObj) : {};
       const name = String(d.name ?? d.device ?? d.appliance ?? "Electronic Device").trim() || "Electronic Device";
       const minRaw = Math.max(0, toNumber(d.powerMinWatts ?? d.minWatts ?? d.minimumWatts, 10));
@@ -314,10 +314,10 @@ function normalizeAnalysis(raw: unknown): AnalysisResult {
       }
       return parsed.data;
     })
-    .filter((device): device is z.infer<typeof DeviceSchema> => device !== null);
+    .filter((device: any): device is z.infer<typeof DeviceSchema> => device !== null);
 
   const observations = Array.isArray(obj.observations)
-    ? obj.observations.map((v) => String(v)).filter(Boolean).slice(0, 8)
+    ? obj.observations.map((v: any) => String(v)).filter(Boolean).slice(0, 8)
     : [];
 
   return AnalysisSchema.parse({
@@ -330,7 +330,7 @@ function normalizeAnalysis(raw: unknown): AnalysisResult {
 function normalizeCoaching(raw: unknown): CoachingResult {
   const obj = raw && typeof raw === "object" ? (raw as LooseObj) : {};
   const recs = Array.isArray(obj.recommendations) ? obj.recommendations : [];
-  const recommendations = recs.slice(0, 3).map((item) => {
+  const recommendations = recs.slice(0, 3).map((item: any) => {
     const r = item && typeof item === "object" ? (item as LooseObj) : {};
     return {
       title: String(r.title ?? "Energy-saving opportunity"),
@@ -346,7 +346,7 @@ function normalizeCoaching(raw: unknown): CoachingResult {
     blindSpot: String(obj.blindSpot ?? obj.blind_spot ?? ""),
     recommendations,
     oneChange: one ? { title: String(one.title ?? "One change"), body: String(one.body ?? "") } : undefined,
-    warnings: Array.isArray(obj.warnings) ? obj.warnings.map((v) => String(v)).filter(Boolean).slice(0, 6) : [],
+    warnings: Array.isArray(obj.warnings) ? obj.warnings.map((v: any) => String(v)).filter(Boolean).slice(0, 6) : [],
   });
 }
 
@@ -357,7 +357,7 @@ function extractGeminiText(json: unknown): string {
   const content = first.content && typeof first.content === "object" ? (first.content as LooseObj) : {};
   const parts = Array.isArray(content.parts) ? content.parts : [];
   return parts
-    .map((part) => (part && typeof part === "object" ? String((part as LooseObj).text ?? "") : ""))
+    .map((part: any) => (part && typeof part === "object" ? String((part as LooseObj).text ?? "") : ""))
     .join("")
     .trim();
 }
@@ -422,7 +422,7 @@ function extractLovableText(json: unknown): string {
   if (typeof content === "string") return content;
   if (Array.isArray(content)) {
     return content
-      .map((part) => (part && typeof part === "object" ? String((part as LooseObj).text ?? "") : ""))
+      .map((part: any) => (part && typeof part === "object" ? String((part as LooseObj).text ?? "") : ""))
       .join("")
       .trim();
   }
@@ -510,8 +510,8 @@ function localCoachingFallback(payload: unknown): CoachingResult {
   const totals = root.totals && typeof root.totals === "object" ? (root.totals as LooseObj) : {};
   const devices = Array.isArray(root.devices) ? root.devices : [];
   const rows = devices
-    .map((item) => (item && typeof item === "object" ? (item as LooseObj) : {}))
-    .sort((a, b) => toNumber(b.sharePct, 0) - toNumber(a.sharePct, 0));
+    .map((item: any) => (item && typeof item === "object" ? (item as LooseObj) : {}))
+    .sort((a: any, b: any) => toNumber(b.sharePct, 0) - toNumber(a.sharePct, 0));
   const top = rows[0];
   const topName = top ? String(top.name ?? "the largest appliance") : "the largest appliance";
   const topShare = top ? Math.round(toNumber(top.sharePct, 0)) : 0;
@@ -519,7 +519,7 @@ function localCoachingFallback(payload: unknown): CoachingResult {
   const monthlyMax = Math.round(toNumber(totals.monthlyCostMaxRp, 0));
   const rp = (n: number) => `Rp ${new Intl.NumberFormat("id-ID").format(n)}`;
 
-  const recommendations = rows.slice(0, 3).map((d, index) => {
+  const recommendations = rows.slice(0, 3).map((d: any, index: number) => {
     const name = String(d.name ?? "Device");
     const hours = toNumber(d.hoursPerDay, 0);
     const share = Math.round(toNumber(d.sharePct, 0));
