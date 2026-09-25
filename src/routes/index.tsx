@@ -344,6 +344,8 @@ function Landing() {
         </section>
       </main>
 
+      <MainnetContract />
+
       <SiteFooter />
     </div>
   );
