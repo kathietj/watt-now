@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ScanLine, Cpu, PiggyBank, ShieldCheck, Smartphone, Zap, Activity, Gauge, Sparkles } from "lucide-react";
+import { Camera, ScanLine, Cpu, PiggyBank, ShieldCheck, Smartphone, Zap, Activity, Gauge, Sparkles, Copy, Check, ExternalLink, Boxes } from "lucide-react";
 import heroImage from "@/assets/hero-scan.jpg";
+import botchainLogo from "@/assets/botchain-logo.jpg.asset.json";
 import { SiteHeader, SiteFooter, EstimateNotice } from "@/components/site-chrome";
+
+const MAINNET_CONTRACT = "0x4934e47a285EC8AFb1A56BBB247C8091913F3BEC";
+const MAINNET_EXPLORER = "https://scan.botchain.ai/address/0x4934e47a285EC8AFb1A56BBB247C8091913F3BEC";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,6 +23,8 @@ export const Route = createFileRoute("/")({
         content:
           "Point. Scan. Understand your electricity. Turn any camera into an instant visual energy audit.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Landing,
