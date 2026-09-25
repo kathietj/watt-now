@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ScanLine, Cpu, PiggyBank, ShieldCheck, Smartphone, Zap, Activity, Gauge, Sparkles } from "lucide-react";
+import { Camera, ScanLine, Cpu, PiggyBank, ShieldCheck, Smartphone, Zap, Activity, Gauge, Sparkles, Copy, Check, ExternalLink, Boxes } from "lucide-react";
 import heroImage from "@/assets/hero-scan.jpg";
+import botchainLogo from "@/assets/botchain-logo.jpg.asset.json";
 import { SiteHeader, SiteFooter, EstimateNotice } from "@/components/site-chrome";
+
+const MAINNET_CONTRACT = "0x4934e47a285EC8AFb1A56BBB247C8091913F3BEC";
+const MAINNET_EXPLORER = "https://scan.botchain.ai/address/0x4934e47a285EC8AFb1A56BBB247C8091913F3BEC";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,6 +23,8 @@ export const Route = createFileRoute("/")({
         content:
           "Point. Scan. Understand your electricity. Turn any camera into an instant visual energy audit.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Landing,
@@ -144,6 +151,75 @@ function NeonGraffiti() {
   );
 }
 
+function MainnetContract() {
+  const [copied, setCopied] = useState(false);
+
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(MAINNET_CONTRACT);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // clipboard unavailable — user can still select the address manually
+    }
+  };
+
+  return (
+    <section className="border-t border-border/60 bg-surface/40">
+      <div className="mx-auto max-w-6xl px-4 py-14">
+        <div className="panel relative overflow-hidden p-6 sm:p-8">
+          <div className="grid-glow pointer-events-none absolute inset-0 opacity-40" aria-hidden="true" />
+          <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-start gap-4">
+              <img
+                src={botchainLogo.url}
+                alt="BOTChain logo"
+                width={72}
+                height={72}
+                className="size-14 shrink-0 rounded-xl border border-border/60 object-contain sm:size-16"
+              />
+              <div>
+                <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
+                  <Boxes className="size-3" /> Deployed on BOTChain Mainnet
+                </span>
+                <h2 className="mt-3 text-xl font-bold sm:text-2xl">Mainnet Contract</h2>
+                <p className="mt-1 max-w-md text-sm leading-relaxed text-muted-foreground">
+                  WattNow's on-chain contract is live. Verify the address on the BOTChain explorer.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 md:items-end">
+              <div className="flex items-center gap-2 rounded-xl border border-border/60 bg-background px-3 py-2.5">
+                <code className="max-w-full overflow-x-auto whitespace-nowrap font-mono text-xs text-foreground sm:text-sm">
+                  {MAINNET_CONTRACT}
+                </code>
+                <button
+                  type="button"
+                  onClick={copyAddress}
+                  className="shrink-0 rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  aria-label={copied ? "Contract address copied" : "Copy contract address"}
+                  title="Copy contract address"
+                >
+                  {copied ? <Check className="size-4 text-primary" /> : <Copy className="size-4" />}
+                </button>
+              </div>
+              <a
+                href={MAINNET_EXPLORER}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 self-start rounded-xl border border-border bg-surface px-4 py-2.5 text-sm font-medium transition-colors hover:bg-accent md:self-auto"
+              >
+                View on BOTChain Explorer <ExternalLink className="size-4 text-primary" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Landing() {
   return (
     <div className="min-h-screen">
@@ -267,6 +343,8 @@ function Landing() {
           </Link>
         </section>
       </main>
+
+      <MainnetContract />
 
       <SiteFooter />
     </div>
