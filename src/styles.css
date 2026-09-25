@@ -2095,3 +2095,194 @@ footer.no-print {
     opacity: 0;
   }
 }
+
+/* WattNow connection loader — a crisp, scalable interpretation of the supplied animation. */
+.page-loader {
+  background: var(--background);
+}
+
+.page-loader::before,
+.page-loader::after,
+.page-loader__grid {
+  display: none;
+}
+
+.page-loader__content {
+  width: min(100%, 420px);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.page-loader__logo {
+  display: block;
+  width: 148px;
+  height: auto;
+  max-height: 65px;
+  object-fit: contain;
+  margin-bottom: 38px;
+}
+
+.connection-mark {
+  --connection-ink: #1a3845;
+  --connection-teal: #2cb7bf;
+  --connection-wire: #257981;
+  --connection-flash: #e6a52c;
+  position: relative;
+  width: min(58vw, 220px);
+  aspect-ratio: 1;
+  flex: none;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--connection-ink);
+  isolation: isolate;
+  box-shadow: 0 18px 56px color-mix(in oklab, var(--connection-ink) 38%, transparent);
+}
+
+.connection-mark__wire {
+  position: absolute;
+  top: calc(50% - 4px);
+  left: -23%;
+  width: 146%;
+  height: 8px;
+  transform: rotate(45deg);
+  background: var(--connection-wire);
+}
+
+.connection-mark__pieces {
+  position: absolute;
+  inset: 0;
+  transform: rotate(45deg);
+}
+
+.connection-mark__half {
+  position: absolute;
+  top: calc(50% - 16px);
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+.connection-mark__half--left {
+  left: calc(50% - 46px);
+  width: 46px;
+  transform-origin: right center;
+  animation: connection-left 3s ease-in-out both;
+}
+
+.connection-mark__half--right {
+  left: 50%;
+  width: 52px;
+  transform-origin: left center;
+  animation: connection-right 3s ease-in-out both;
+}
+
+.connection-mark__body {
+  height: 32px;
+  flex: 1;
+  background: var(--connection-teal);
+}
+
+.connection-mark__half--left .connection-mark__body {
+  border-radius: 19px 3px 3px 19px;
+}
+
+.connection-mark__half--right .connection-mark__body {
+  border-radius: 3px 19px 19px 3px;
+}
+
+.connection-mark__collar {
+  width: 12px;
+  height: 34px;
+  flex: none;
+  border-radius: 3px;
+  background: var(--foreground);
+}
+
+.connection-mark__half--left .connection-mark__collar {
+  box-shadow: 2px 0 0 var(--foreground);
+}
+
+.connection-mark__pins {
+  position: relative;
+  width: 8px;
+  height: 18px;
+  flex: none;
+}
+
+.connection-mark__pins::before,
+.connection-mark__pins::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 8px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--foreground);
+}
+
+.connection-mark__pins::before { top: 1px; }
+.connection-mark__pins::after { bottom: 1px; }
+
+.connection-mark__bolt {
+  position: absolute;
+  width: 16px;
+  height: 24px;
+  background: var(--connection-flash);
+  clip-path: polygon(53% 0, 0 53%, 42% 53%, 25% 100%, 100% 39%, 56% 39%);
+  opacity: 0;
+  animation: connection-spark 3s ease-in-out both;
+}
+
+.connection-mark__bolt--one { top: 24%; left: 63%; transform: rotate(-18deg); }
+.connection-mark__bolt--two { top: 37%; left: 75%; transform: rotate(65deg); animation-delay: 70ms; }
+.connection-mark__bolt--three { top: 58%; left: 19%; transform: rotate(-105deg); animation-delay: 120ms; }
+.connection-mark__bolt--four { top: 69%; left: 32%; transform: rotate(160deg); animation-delay: 40ms; }
+
+.connection-mark__dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--connection-flash);
+  opacity: 0;
+  animation: connection-spark 3s ease-in-out both;
+}
+
+.connection-mark__dot--one { top: 26%; left: 82%; animation-delay: 160ms; }
+.connection-mark__dot--two { top: 77%; left: 19%; animation-delay: 210ms; }
+
+@keyframes connection-left {
+  0%, 55% { transform: translateX(0); }
+  72%, 86% { transform: translateX(-42px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes connection-right {
+  0%, 55% { transform: translateX(0); }
+  72%, 86% { transform: translateX(42px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes connection-spark {
+  0%, 10%, 54%, 100% { opacity: 0; }
+  20%, 44% { opacity: 1; }
+}
+
+.page-loader__status {
+  margin-top: 33px;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .connection-mark__half,
+  .connection-mark__bolt,
+  .connection-mark__dot { animation: none; }
+}
