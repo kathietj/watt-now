@@ -15,6 +15,8 @@ export const Route = createFileRoute("/history")({
       },
       { property: "og:title", content: "My Energy Scans — WattNow" },
       { property: "og:description", content: "Track estimated room electricity cost over time." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: HistoryPage,

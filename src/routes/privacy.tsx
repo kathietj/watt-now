@@ -12,6 +12,8 @@ export const Route = createFileRoute("/privacy")({
       },
       { property: "og:title", content: "Privacy — WattNow" },
       { property: "og:description", content: "Your camera feed stays private." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: PrivacyPage,

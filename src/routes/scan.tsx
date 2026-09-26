@@ -36,6 +36,8 @@ export const Route = createFileRoute("/scan")({
         property: "og:description",
         content: "Live electronics detection in your browser. No app download required.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ScanPage,

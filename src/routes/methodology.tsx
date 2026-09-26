@@ -16,6 +16,8 @@ export const Route = createFileRoute("/methodology")({
         property: "og:description",
         content: "The assumptions, formulas and limitations behind every WattNow number.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: MethodologyPage,
