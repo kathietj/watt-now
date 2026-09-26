@@ -37,6 +37,8 @@ export const Route = createFileRoute("/review")({
         property: "og:description",
         content: "AI detection is not always right. Fix the room before the numbers are calculated.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ReviewPage,

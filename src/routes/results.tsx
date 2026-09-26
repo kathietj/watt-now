@@ -51,6 +51,8 @@ export const Route = createFileRoute("/results")({
         property: "og:description",
         content: "Estimated electricity cost and savings opportunities for your scanned room.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: ResultsPage,
