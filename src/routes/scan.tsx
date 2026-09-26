@@ -186,24 +186,6 @@ function ScanPage() {
         });
       } catch (err) {
         console.error("[WattNow deep analysis]", err);
-        const message = err instanceof Error ? err.message : String(err ?? "");
-
-        if (message.includes("RATE_LIMIT")) {
-          toast.error("AI is busy right now. Your live detections were kept — try Capture & Analyze again in a moment.");
-        } else if (message.includes("NO_CREDITS")) {
-          toast.error("AI credits are unavailable. Your live detections were kept.");
-        } else if (message.includes("AI_NOT_CONFIGURED")) {
-          toast.error("Deep AI is not configured on this deployment. Add GEMINI_API_KEY on the server or enable Lovable AI.");
-        } else if (message.includes("AI_AUTH")) {
-          toast.error("The AI API key was rejected. Check the server environment key.");
-        } else if (message.includes("IMAGE_TOO_LARGE")) {
-          toast.error("That image is too large for AI analysis. Please retake it or upload a smaller photo.");
-        } else if (message.includes("AI_TIMEOUT") || message.includes("AI_NETWORK") || message.includes("AI_TEMPORARY")) {
-          toast.error("The AI service is temporarily unreachable. Your live detections were kept.");
-        } else {
-          toast.error(`Deep AI analysis failed${message ? `: ${message.slice(0, 160)}` : ""}. Live detections were kept.`);
-        }
-
         updateCurrent({ appliances: mergeDetections(currentBoxes, []) });
       } finally {
         clearInterval(timer);
