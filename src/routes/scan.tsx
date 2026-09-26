@@ -188,6 +188,20 @@ function ScanPage() {
         });
       } catch (err) {
         console.error("[WattNow deep analysis]", err);
+        // The AI backend is still required for deep analysis — surface the
+        // failure, but only once per session so every scan isn't interrupted.
+        const STORAGE_KEY = "wattnow_scan_failure_notified";
+        let alreadyNotified = false;
+        try {
+          alreadyNotified = sessionStorage.getItem(STORAGE_KEY) === "1";
+          if (!alreadyNotified) sessionStorage.setItem(STORAGE_KEY, "1");
+        } catch {
+          // sessionStorage unavailable — default to showing the notification
+        }
+        if (!alreadyNotified) {
+          const message = err instanceof Error ? err.message : String(err);
+          toast.error(`Deep AI analysis failed: ${message}. Live detections were kept.`);
+        }
         updateCurrent({ appliances: mergeDetections(currentBoxes, []) });
       } finally {
         clearInterval(timer);
