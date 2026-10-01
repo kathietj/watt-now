@@ -172,7 +172,7 @@ function MainnetContract() {
           <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-start gap-4">
               <img
-                src={botchainLogo.url}
+                src="/BOTChain_AI.jpg"
                 alt="BOTChain logo"
                 width={72}
                 height={72}
