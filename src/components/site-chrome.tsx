@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { WalletButton } from "@/components/web3";
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
@@ -37,7 +38,7 @@ export function SiteHeader() {
           >
             Methodology
           </Link>
-
+          <WalletButton />
           <Link
             to="/scan"
             className="ml-1 rounded-xl bg-primary px-4 py-2 font-medium text-primary-foreground transition-opacity hover:opacity-90"

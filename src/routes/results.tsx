@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { DetectionOverlay } from "@/components/detection-overlay";
 import { EstimateNotice, SiteFooter } from "@/components/site-chrome";
 import { coachRoom } from "@/lib/analysis.functions";
+import { SaveOnChain, WalletButton } from "@/components/web3";
 import {
   TARIFF_CONFIG,
   computeRoomTotals,
@@ -161,6 +162,7 @@ function ResultsPage() {
             Based on the appliances detected and your estimated usage. All values are estimates.
           </p>
           <div className="no-print mt-5 flex flex-wrap gap-2">
+            <WalletButton />
             <button
               onClick={() => {
                 saveCurrentToHistory();
@@ -486,6 +488,8 @@ function ResultsPage() {
             <p className="mt-2 leading-relaxed">{coaching.data.oneChange.body}</p>
           </section>
         )}
+
+        <SaveOnChain monthlyKwh={(totals.monthlyKwhMin + totals.monthlyKwhMax) / 2} />
 
         <div className="panel p-5">
           <EstimateNotice />

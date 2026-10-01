@@ -3,6 +3,7 @@ import { Trash2, TrendingDown, TrendingUp } from "lucide-react";
 import { SiteHeader, SiteFooter, EstimateNotice } from "@/components/site-chrome";
 import { computeRoomTotals, formatRpRange, ROOM_TYPES } from "@/lib/energy";
 import { deleteScan, useScanStore } from "@/lib/scan-store";
+import { OnChainHistory } from "@/components/web3";
 
 export const Route = createFileRoute("/history")({
   head: () => ({
@@ -133,6 +134,8 @@ function HistoryPage() {
               </section>
             );
           })}
+
+        <OnChainHistory />
 
         <div className="panel mt-8 p-5">
           <EstimateNotice />
